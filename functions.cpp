@@ -30,12 +30,13 @@ int greatestTriLE(int s) {
     return k;
 }
 
-vi getFreqs(int a[], int n) {
+template <class T>
+vi getFreqs(T a[], int n) {
     sort(a, a+n);  // Sort
     vi freqs;
 
     int currFreq = 1;
-    int currEle = a[0];
+    T currEle = a[0];
     for (int i=1; i<n; i++) {
         if (a[i] == currEle)
             currFreq++;
