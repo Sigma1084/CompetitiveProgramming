@@ -6,27 +6,17 @@ using namespace std;
 string strSlice(string s, int start, int end) {
     int l = s.length();
     string ans = "";
-
-    if (end == -1)
-        end = s.length();
-
-    if (start < 0 || start >= l)
-        return ans;
-
-    if (end <= start || end > l)
-        return ans;
-
-    for (int i=start; i<end; i++)
-        ans += s[i];
-
+    if (end == -1) end = s.length();
+    if (start < 0 || start >= l) return ans;
+    if (end <= start || end > l) return ans;
+    for (int i=start; i<end; i++) ans += s[i];
     return ans;
 }
 
 // Greatest Triangular Number Less than or equal to
 int greatestTriLE(int s) {
     int k = ceil(sqrt(2 * s));
-    while (k*(k+1) > 2*s)
-        k--;
+    while (k*(k+1) > 2*s) k--;
     return k;
 }
 

@@ -1,31 +1,39 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-// Data Type Macros
-
-typedef unsigned long int ul;
+// Data Types
 typedef long long int ll;
-typedef unsigned long long int ull;
+typedef long double ld;
 
-typedef vector<int> vi;
-typedef vector<long long int> vll;
-typedef vector<bool> vb;
-
-typedef vector<vi> vvi;
-typedef vector<vll> vvll;
-
-typedef pair<int, int> pii;
-
-// Constant Macros
-#define MOD 1000000007
-#define PI 3.1415926535
-#define inf INT_MAX
-#define linf LONG_MAX
-
-// Some other Macros
+// Some misc Macros
 #define pb push_back
 #define prec fixed << setprecision
 #define tempT template <class T>
+#define F first
+#define S second
+
+// DataTypes
+#define V vector
+#define M map
+template<class _T1, class _T2> struct P: pair<_T1, _T2> {
+    friend std::ostream& operator << (ostream &outFunc, const P<_T1, _T2> &p) {
+        outFunc << p.F << ' ' << p.S << ' '; return outFunc; }
+};
+
+typedef V<int> vi;
+typedef V<bool> vb;
+typedef V<vi> vvi;
+typedef P<int, int> pii;
+typedef M<int, int> mii;
+typedef V<long long int> vll;
+typedef V<vll> vvll;
+
+// Constants
+const int MOD = 1000000007;
+const double PI = 3.1415926535;
+const int INF = INT_MAX;
+const ll LINF = LONG_MAX;
+const char NEWL = '\n';
 
 // Yes or No and return Macros
 #define pY { cout << "YES"; return; }
@@ -37,16 +45,38 @@ typedef pair<int, int> pii;
 
 #define Get(T, x) T x; cin >> x;
 #define GetArr(T, a, n) T a[n]; for (int i=0; i<n; i++) cin >> a[i];
-#define GetVec(T, v) vector<T> v; T temp; for (int i=0; i<n; i++) cin >> temp, v.pb(temp);
+#define GetVec(T, v, n) V<T> v(n); for (T &t: v) cin >> t;
 
 // For loops
-#define For for(int i=0; i<n; i++)
-#define FOR(i, start, end) for(auto i=start; i<end; i++)
+#define For(n) for(int i=0; i<n; i++)
+#define ForRev(n) for (int i=n-1; i>=0; i--)
 #define Iter(arr) for(auto i: arr)
+#define FOR(i, start, end) for(auto i=start; i<end; i++)
+#define FORRev(i, start, end) for(auto i=end-1; i>=start; i--)
 
+// Debugging
+bool debug = false;
+#define printIter(a) Iter(a) cout << i << ' '; cout << '\n';
+#define printPair(p) cout << p.F << ' ' << p.S << ' ';
+
+//Speed
+#define FAST ios::sync_with_stdio(false); cin.tie(nullptr); cout.tie(nullptr);
+
+/* ------------------------------------------------------------------------- */
 // Some Functions
-tempT T Min(int n, T arr[]) {T mn = arr[0]; FOR(i, 1, n) mn = min(mn, arr[i]); return mn;}
-tempT T Max(int n, T arr[]) {T mx = arr[0]; FOR(i, 1, n) mx = max(mx, arr[i]); return mx;}
+
+tempT T Min(int n, T a[]) { T mn = a[0]; For(n) mn = min(mn, a[i]); return mn; }
+tempT T Max(int n, T a[]) { T mx = a[0]; For(n) mx = max(mx, a[i]); return mx; }
+tempT T Min(V<T> a) { T mn = a[0]; Iter(a) mn = min(mn, i); return mn; }
+tempT T Max(V<T> a) { T mx = a[0]; Iter(a) mx = max(mx, i); return mx; }
+
+tempT M<T, int> freq(V<T> a) {M<T, int> m; Iter(a) m[i]++; return m; }
+
+/* ------------------------------------------------------------------------- */
+
+// const int N = 1e5 + 3;
+
+/* ------------------------------------------------------------------------- */
 
 
 void solve() {
@@ -59,9 +89,7 @@ void solve() {
 
 
 int main() {
-    ios::sync_with_stdio(false);
-    cin.tie(nullptr);
-    cout.tie(nullptr);
+    FAST
 
     int t;
     cin >> t;
