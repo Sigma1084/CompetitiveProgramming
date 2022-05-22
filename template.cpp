@@ -8,7 +8,7 @@ typedef long double ld;
 // Some misc Macros
 #define pb push_back
 #define prec fixed << setprecision
-#define tempT template <class T>
+#define tempT template <class _T>
 #define F first
 #define S second
 
@@ -65,12 +65,15 @@ bool debug = false;
 /* ------------------------------------------------------------------------- */
 // Some Functions
 
-tempT T Min(int n, T a[]) { T mn = a[0]; For(n) mn = min(mn, a[i]); return mn; }
-tempT T Max(int n, T a[]) { T mx = a[0]; For(n) mx = max(mx, a[i]); return mx; }
-tempT T Min(V<T> a) { T mn = a[0]; Iter(a) mn = min(mn, i); return mn; }
-tempT T Max(V<T> a) { T mx = a[0]; Iter(a) mx = max(mx, i); return mx; }
+tempT _T Min(int n, _T a[]) {_T mn = a[0];For(n) mn = min(mn, a[i]); return mn;}
+tempT _T Max(int n, _T a[]) {_T mx = a[0];For(n) mx = max(mx, a[i]); return mx;}
+tempT _T Min(V<_T> a) { _T mn = a[0]; Iter(a) mn = min(mn, i); return mn; }
+tempT _T Max(V<_T> a) { _T mx = a[0]; Iter(a) mx = max(mx, i); return mx; }
 
-tempT M<T, int> freq(V<T> a) {M<T, int> m; Iter(a) m[i]++; return m; }
+tempT ll Sum(int n, _T a[]) { ll s = 0; For(n) s += a[i]; return s; }
+tempT ll Sum(V<_T> a) { ll s = 0; Iter(a) s += i; return s; }
+
+tempT M<_T, int> freq(V<_T> a) {M<_T, int> m; Iter(a) m[i]++; return m; }
 
 /* ------------------------------------------------------------------------- */
 
