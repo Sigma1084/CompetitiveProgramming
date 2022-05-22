@@ -1,5 +1,5 @@
 # CodeForces Round 787 (Div 3)
-[Link](https://codeforces.com/contest/1659)
+[Link](https://codeforces.com/contest/1675)
 
 ## Submissions
 * [A_Food_for_Animals](https://codeforces.com/contest/1675/submission/156095854)
