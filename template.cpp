@@ -66,11 +66,10 @@ typedef V<vl> vvl;
 // Debugging
 bool debug = false;
 
-//Speed
-#define FAST ios::sync_with_stdio(false); cin.tie(nullptr); cout.tie(nullptr);
-
 /* ------------------------------------------------------------------------- */
 // Some Functions
+
+void _fast() { ios::sync_with_stdio(false);cin.tie(nullptr);cout.tie(nullptr) }
 
 tempT _T Min(int n, _T a[]) {_T mn = a[0];For(n) mn = min(mn, a[i]); return mn;}
 tempT _T Max(int n, _T a[]) {_T mx = a[0];For(n) mx = max(mx, a[i]); return mx;}
@@ -84,14 +83,14 @@ tempT M<_T, int> freq(V<_T> a) {M<_T, int> m; Trav(a) m[i]++; return m; }
 
 /* ------------------------------------------------------------------------- */
 
+// Global Variables
+
+
 // const int N = 1e5 + 3;
-
-/* ------------------------------------------------------------------------- */
-
 
 void solve() {
     Get(int, n);
-    GetV(vi, a, n);
+    GetV(int, a, n);
 
     // auto f = [&] () -> void {};
 
@@ -99,7 +98,7 @@ void solve() {
 
 
 int main() {
-    FAST
+    _fast();
 
     int t = 1;
     cin >> t;
