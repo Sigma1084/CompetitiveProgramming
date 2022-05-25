@@ -38,11 +38,11 @@ tempT struct V: vector<_T> {
     friend istream& operator >> (istream &inFunc, V<_T> &v)
     { Trav(v) inFunc >> i; return inFunc; }
 };
-template<class _T1, class _T2> struct P: pair<_T1, _T2> {
-    using pair<_T1, _T2>::pair;
-    friend ostream& operator << (ostream &outFunc, const P<_T1, _T2> &p)
+template<class T1, class T2> struct P: pair<T1, T2> {
+    using pair<T1, T2>::pair;
+    friend ostream& operator << (ostream &outFunc, const P<T1, T2> &p)
     { outFunc << p.F << ' ' << p.S << ' '; return outFunc; }
-    friend istream& operator >> (istream &inFunc, P<_T1, _T2> &p)
+    friend istream& operator >> (istream &inFunc, P<T1, T2> &p)
     { inFunc >> p.F >> p.S; return inFunc; }
 };
 #define M map
@@ -61,7 +61,7 @@ typedef V<vl> vvl;
 
 // Input Macros
 #define Get(_T, x) _T x; cin >> x
-#define GetV(_T, x, n) _T x(n); cin >> x
+#define GetV(_T, x, n) V<_T> x(n); cin >> x
 
 // Debugging
 bool debug = false;
@@ -69,7 +69,7 @@ bool debug = false;
 /* ------------------------------------------------------------------------- */
 // Some Functions
 
-void _fast() { ios::sync_with_stdio(false);cin.tie(nullptr);cout.tie(nullptr) }
+void fast() { ios::sync_with_stdio(false);cin.tie(nullptr);cout.tie(nullptr); }
 
 tempT _T Min(int n, _T a[]) {_T mn = a[0];For(n) mn = min(mn, a[i]); return mn;}
 tempT _T Max(int n, _T a[]) {_T mx = a[0];For(n) mx = max(mx, a[i]); return mx;}
@@ -98,7 +98,7 @@ void solve() {
 
 
 int main() {
-    _fast();
+    fast();
 
     int t = 1;
     cin >> t;
