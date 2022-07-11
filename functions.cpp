@@ -162,6 +162,24 @@ T phi(T n) {
     return ans;
 }
 
+const int N = 1e5 + 3;
+vector<bool> isPrime(N, true);
+vector<int> primes;
+
+void updatePrimes() {
+    isPrime[0] = isPrime[1] = false;
+    for (int i=2; i*i <= N; i++) {
+        if (!isPrime[i]) continue;
+        for (int j = i*i; j <= N; j += i)
+            isPrime[j] = false;
+    }
+
+    for (int i=2; i <= N; i++) {
+        if (isPrime[i]) primes.push_back(i);
+    }
+}
+
+
 
 //int maxDistance() {
 //    int maxDistance = 0;
