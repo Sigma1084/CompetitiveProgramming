@@ -7,7 +7,8 @@ typedef long double ld;
 
 // Constants
 const int MOD = 1000000007;
-const double PI = 3.1415926535;
+const float PI = 3.1415926535;
+const float eps = 1e-6;
 const int INF = INT_MAX;
 const ll LINF = LONG_MAX;
 const char NL = '\n';
@@ -15,71 +16,63 @@ const char NL = '\n';
 // Some misc Macros
 #define pb push_back
 #define prec fixed << setprecision
-#define tempT template <class _T>
+#define tempT template<typename T>
 #define all(v) (v).begin(), (v).end()
 #define F first
 #define S second
-#define Sort(v) sort(all(v))
 
 // For loops
 #define For(n) for(int i=0; i<n; i++)
 #define ForRev(n) for (int i=n-1; i>=0; i--)
 #define Trav(_iterable) for(auto &i: _iterable)
-#define FOR(i, start, end) for(auto i=start; i<end; i++)
-#define FORRev(i, start, end) for(auto i=end-1; i>=start; i--)
+#define rep(i, start, end) for(auto i=start; i<end; i++)
+#define repRev(i, start, end) for(auto i=end-1; i>=start; i--)
 #define TRAV(i, _iterable) for(auto &i: _iterable)
 
 // Data Structures
-tempT struct V: vector<_T> {
-    using vector<_T>::vector;
-    void sort() { std::sort(all(*this)); }
-    friend ostream& operator << (ostream &outFunc, const V<_T> &v)
-    { Trav(v) outFunc << i << ' '; outFunc << ' '; return outFunc; }
-    friend istream& operator >> (istream &inFunc, V<_T> &v)
-    { Trav(v) inFunc >> i; return inFunc; }
-};
-template<class T1, class T2> struct P: pair<T1, T2> {
-    using pair<T1, T2>::pair;
-    friend ostream& operator << (ostream &outFunc, const P<T1, T2> &p)
-    { outFunc << p.F << ' ' << p.S << ' '; return outFunc; }
-    friend istream& operator >> (istream &inFunc, P<T1, T2> &p)
-    { inFunc >> p.F >> p.S; return inFunc; }
-};
+#define V vector
 #define M map
 typedef V<int> vi;
 typedef V<bool> vb;
 typedef V<vi> vvi;
-typedef P<int, int> pii;
-typedef M<int, int> mii;
 typedef V<long long int> vl;
-typedef V<vl> vvl;
 
 
 // Yes or No and return Macros
 #define pY { cout << "YES"; return; }
 #define pN { cout << "NO"; return; }
 
-// Input Macros
-#define Get(_T, x) _T x; cin >> x
-#define GetV(_T, x, n) V<_T> x(n); cin >> x
+/* ------------------------------------------------------------------------- */
+// Input and Output Extends
 
-// Debugging
-bool debug = false;
+template<typename T> istream &operator >> (istream &in, vector<T> &v) {
+    for (auto &i: v) in >> i; return in; }
+template<typename T> ostream &operator << (ostream &ost, const vector<T> &v) {
+    if (&ost == &cerr) { cerr << "{"; for(auto &x: v) cerr << ' ' << x; cerr << " }"; }
+    else for (auto &x: v) ost << x << ' '; return ost; }
+template<typename T1, typename T2> istream &operator >> (istream &in, pair<T1, T2> &p) {
+    in >> p.first >> p.second; return in; }
+template<typename T1, typename T2> ostream &operator << (ostream &ost, const pair<T1, T2> &p) {
+    if (&ost == &cerr) { cerr << "( " << p.first << ", " << p.second << " )"; }
+    else ost << p.first << ' ' << p.second; return ost; }
+template<typename T> ostream &operator << (ostream &ost, const set<T> &s) {
+    if (&ost == &cerr) { cerr <<"{"; for(auto &x: s) cerr << ' ' << x; cerr << " }"; }
+    else for (auto &x: s) ost << x << ' '; return ost; }
+template<typename T> ostream &operator << (ostream &ost, const multiset<T> &s) {
+    if (&ost == &cerr) { cerr <<"{"; for(auto &x: s) cerr << ' ' << x; cerr << " }"; }
+    else for (auto &x: s) ost << x << ' '; return ost; }
 
 /* ------------------------------------------------------------------------- */
 // Some Functions
 
 void fast() { ios::sync_with_stdio(false);cin.tie(nullptr);cout.tie(nullptr); }
 
-tempT _T Min(int n, _T a[]) {_T mn = a[0];For(n) mn = min(mn, a[i]); return mn;}
-tempT _T Max(int n, _T a[]) {_T mx = a[0];For(n) mx = max(mx, a[i]); return mx;}
-tempT _T Min(V<_T> a) { _T mn = a[0]; Trav(a) mn = min(mn, i); return mn; }
-tempT _T Max(V<_T> a) { _T mx = a[0]; Trav(a) mx = max(mx, i); return mx; }
+tempT T Min(V<T> a) { T mn = a[0]; Trav(a) mn = min(mn, i); return mn; }
+tempT T Max(V<T> a) { T mx = a[0]; Trav(a) mx = max(mx, i); return mx; }
+tempT ll Sum(V<T> a) { ll s = 0; Trav(a) s += i; return s; }
+tempT M<T, int> freq(V<T> a) { map<T, int> m; Trav(a) m[i]++; return m; }
 
-tempT ll Sum(int n, _T a[]) { ll s = 0; For(n) s += a[i]; return s; }
-tempT ll Sum(V<_T> a) { ll s = 0; Trav(a) s += i; return s; }
-
-tempT M<_T, int> freq(V<_T> a) {M<_T, int> m; Trav(a) m[i]++; return m; }
+bool isInt(float x) { return ((x - (int)x) < eps); }
 
 /* ------------------------------------------------------------------------- */
 
@@ -89,8 +82,8 @@ tempT M<_T, int> freq(V<_T> a) {M<_T, int> m; Trav(a) m[i]++; return m; }
 // const int N = 1e5 + 3;
 
 void solve() {
-    Get(int, n);
-    GetV(int, a, n);
+    int n; cin >> n;
+    vi a(n); cin >> a;
 
     // auto f = [&] () -> void {};
 
