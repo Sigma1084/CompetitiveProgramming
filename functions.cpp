@@ -20,6 +20,60 @@ int greatestTriLE(int s) {
     return k;
 }
 
+// Number Theory
+template <class T>
+T phi(T n) {
+    if (n == 1) return 0;
+    T ans = 1;
+    for (T curr = 2; curr*curr <= n and n > 1; curr++) {
+        if (n%curr != 0) continue;
+        // n divides curr
+        T mult = 1;
+        while (n%curr == 0) mult *= curr, n /= curr;
+        ans *= (mult - mult/curr);
+    }
+    // If n > 1 then it is some prime p
+    if (n > 1) ans *= (n-1);
+    return ans;
+}
+
+const int N = 1e5 + 3;
+vector<bool> isPrime(N, true);
+vector<int> primes;
+
+void updatePrimes() {
+    isPrime[0] = isPrime[1] = false;
+    for (int i=2; i*i <= N; i++) {
+        if (!isPrime[i]) continue;
+        for (int j = i*i; j <= N; j += i)
+            isPrime[j] = false;
+    }
+
+    for (int i=2; i <= N; i++) {
+        if (isPrime[i]) primes.push_back(i);
+    }
+}
+
+
+/** <h2> Bitwise Functions </h2> <ul>
+ *   <li> n >> d  --> Right shift d times (Divide by 2^d) </li>
+ *   <li> n & 1  --> Last digit </li>
+ *   <li> (n>>d) << d  --> Make the last d digits zeros </li>
+ *   <li> n % ((n>>d) << d)  --> Get the last d digits </li>
+ * </ul>
+ */
+
+
+/** <h2> Set </h2> <ul>
+ *   <li>  </li>
+ *   <li>  </li>
+ *   <li>  </li>
+ *   <li>  </li>
+ * </ul>
+ */
+
+/*****************************************************************/
+
 template <class T>
 vi getFreqs(T a[], int n) {
     sort(a, a+n);  // Sort
@@ -45,157 +99,3 @@ int maxFreq(int a[], int n) {
     sort(freqs.begin(), freqs.end());
     return freqs[freqs.size()-1];
 }
-
-struct MaxHeap {
-    int *heap;
-    int heapSize;
-    int arraySize;
-
-    static int getLeft(int index) { return 2*index + 1; }
-    static int getRight(int index) { return 2*index + 2; }
-    static int getParent(int index) { return (index-1) / 2; }
-
-    bool empty() const { return heapSize == 0; }
-    bool hasLeft(int index) const { return getLeft(index) < heapSize; }
-    bool hasRight(int index) const { return getRight(index) < heapSize; }
-
-    static bool compare(int a, int b) { return a > b; }
-
-    void swap(int i, int j) const {
-        int temp = heap[i];
-        heap[i] = heap[j];
-        heap[j] = temp;
-    }
-
-    void heapifyUp(int index) {
-        if (index == 0)
-            return;
-        int parent = getParent(index);
-        if (compare(heap[index], heap[parent])) {
-            swap(parent, index);
-            heapifyUp(parent);
-        }
-    }
-
-    void heapifyDown(int index=0) {
-        if (index >= heapSize)
-            return;
-
-        int left = getLeft(index);
-        int right = getRight(index);
-        int maxEle = index;
-
-        if (hasLeft(index) && compare(heap[left], heap[maxEle]))
-            maxEle = left;
-        if (hasRight(index) && compare(heap[right], heap[maxEle]))
-            maxEle = right;
-        if (maxEle != index) {
-            swap(index, maxEle);
-            heapifyDown(maxEle);
-        }
-    }
-
-    explicit MaxHeap(int size) {
-        arraySize = size;
-        heap = new int[size];
-        heapSize = 0;
-    }
-
-    void push(int data) {
-        if(heapSize == arraySize)
-            return;
-        heap[heapSize] = data;
-        heapifyUp(heapSize++);
-    }
-
-    int peek() const {
-        if (heapSize > 0) return heap[0];
-        return 0;
-    }
-
-    int pop(int index=0) {
-        if (heapSize == 0 || index < 0 || index >= heapSize)
-            return -1;
-        int retInt = heap[index];
-        heap[index] = heap[--heapSize];
-        heapifyDown(index);
-        return retInt;
-    }
-
-    ~MaxHeap() { delete [] heap; }
-};
-
-/** Bitwise Functions <br>
- *
- * n >> d  --> Right shift d times (Divide by 2^d) <br>
- * n & 1  --> Last digit <br>
- * (n>>d) << d  --> Make the last d digits zeros <br>
- * n % ((n>>d) << d)  --> Get the last d digits <br>
- *
- */
-
-
-// Number Theory
-template <class T>
-T phi(T n) {
-    if (n == 1)
-        return 0;
-    T ans = 1;
-    T mult;
-    T curr;
-    for (curr = 2; curr*curr <= n; curr++) {
-        if (n%curr != 0)
-            continue;
-
-        // n divides curr
-        mult = 1;
-        while (n > 0 && n%curr == 0) {
-            mult *= curr;
-            n /= curr;
-        }
-        ans *= (mult - mult/curr);
-    }
-    // If n > 0 then it is some prime p
-    if (n > 1)
-        ans *= (n-1);
-
-    return ans;
-}
-
-const int N = 1e5 + 3;
-vector<bool> isPrime(N, true);
-vector<int> primes;
-
-void updatePrimes() {
-    isPrime[0] = isPrime[1] = false;
-    for (int i=2; i*i <= N; i++) {
-        if (!isPrime[i]) continue;
-        for (int j = i*i; j <= N; j += i)
-            isPrime[j] = false;
-    }
-
-    for (int i=2; i <= N; i++) {
-        if (isPrime[i]) primes.push_back(i);
-    }
-}
-
-
-
-//int maxDistance() {
-//    int maxDistance = 0;
-//
-//    queue<int> q;
-//    q.push(1);
-//    while (!q.empty()) {
-//        int vert = q.front();
-//        q.pop();
-//
-//        for (int v: edgesFrom[vert]) {
-//            distance[v] = min(distance[v], distance[parent[v]]+1);
-//            if (distance[v] > maxDistance)
-//                maxDistance = distance[v];
-//            q.push(v);
-//        }
-//    }
-//}
-

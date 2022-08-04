@@ -6,3 +6,4 @@ CMakeLists.txt
 .cph
 
 runner.cpp
+*/test_input.txt
