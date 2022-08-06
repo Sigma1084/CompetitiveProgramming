@@ -99,3 +99,31 @@ int maxFreq(int a[], int n) {
     sort(freqs.begin(), freqs.end());
     return freqs[freqs.size()-1];
 }
+
+typedef long long int ll;
+const int MOD = 1e9 + 7;
+
+template <unsigned int MOD=MOD>
+struct ModInt {
+    long long int val = 0;
+    ModInt() = default;
+    ModInt(int v): val((MOD + v) % MOD) {}
+    void operator += (const int &a)
+    { val += 0ll + MOD + a; val %= MOD; }
+    void operator *= (const int &a)
+    { val *= a; val %= MOD; if (val < 0) val += MOD; }
+};
+typedef ModInt<> Mod;
+
+// a ^ b (mod MOD)
+ll modPow(ll a, ll b) {
+  if (b == 0) return 1;
+  ll x = modPow(a, b/2) % MOD;
+  x = (x * x) % MOD;
+  return (x * (b%2 ? a : 1)) % MOD;
+}
+
+// Using Fermat's Little Theorem, (only works for prime MOD)
+ll modInverse(ll a) {
+  return modPow(a, MOD-2);
+}
