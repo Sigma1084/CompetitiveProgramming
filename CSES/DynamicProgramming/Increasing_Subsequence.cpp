@@ -1,18 +1,17 @@
 #include <bits/stdc++.h>
 using namespace std;
-typedef long long int ll;
 
 void solve() {
-    int n, m; cin >> n >> m;  // m is money
+    int n; cin >> n;
     vector<int> a(n); for (auto &i: a) cin >> i;
-    
-    /**
-     * @brief dp[num_of_coins_used][money]
-     */
-    vector<vector<ll>> dp(n+1, vector<ll>(m));
-    for (int j=0; j<=m; j++) dp[0][j] = 1;
 
-    
+    vector<int> dec; dec.push_back(a[0]);
+    for (auto &i: a) {
+        if (i > dec.back()) dec.push_back(i);
+        else *lower_bound(dec.begin(), dec.end(), i) = i;
+    }
+
+    cout << dec.size();
 }
 
 
