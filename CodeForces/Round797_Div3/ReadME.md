@@ -1,4 +1,4 @@
-# CodeForces Round 797 (Div 2)
+# CodeForces Round 797 (Div 3)
 [Link](https://codeforces.com/contest/1690)
 
 ## Submissions
