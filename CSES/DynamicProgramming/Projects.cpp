@@ -6,20 +6,23 @@ typedef vector<int> vi;
 void solve() {
     int n; cin >> n;
     vector<vi> a(n, vi(3));
-    for (auto &i: a) cin >> i[0] >> i[1] >> i[2];
+    for (auto &i: a) cin >> i[0] >> i[1] >> i[2], i[0]--;
     sort(a.begin(), a.end(), [] (vi &x, vi &y) { return x[1] <= y[1]; } );
 
-    // map<int, ll> dp; dp[0] = 0;
-    // dp[1] = 4;
-    // dp[3] = 8;
-    // dp[4] = 3;
-    // dp[5] = 9;
-    // auto x = dp.lower_bound(4);
-    // cout << x->first << ' ' << x->second;
+    /**
+     * @brief dp[ending_time]
+     * 
+     * Max Profit Before the Ending Time
+     */
 
-    vector<int> b = {1, 2, 2, 2, 2, 3, 4, 5, 8};
-    cout << lower_bound(b.begin(), b.end(), 2) - b.begin() << '\n';
-    cout << upper_bound(b.begin(), b.end(), 2) - b.begin() << '\n';
+    map<int, ll> dp; dp[0] = 0;
+    int s, e, m;
+    for (int i=0; i<n; i++) {
+        s = a[i][0], e = a[i][1], m = a[i][2];
+        auto it = prev(dp.upper_bound(s));
+        dp[e] = max(it->second + m, prev(dp.end())->second);
+    }
+    cout << prev(dp.end())->second;
 }
 
 
