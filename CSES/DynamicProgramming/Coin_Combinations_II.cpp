@@ -1,18 +1,26 @@
 #include <bits/stdc++.h>
 using namespace std;
-typedef long long int ll;
+const int MOD = 1e9 + 7;
 
 void solve() {
-    int n, m; cin >> n >> m;  // m is money
+    int n, M; cin >> n >> M;
     vector<int> a(n); for (auto &i: a) cin >> i;
-    
-    /**
-     * @brief dp[num_of_coins_used][money]
-     */
-    vector<vector<ll>> dp(n+1, vector<ll>(m));
-    for (int j=0; j<=m; j++) dp[0][j] = 1;
+    sort(a.begin(), a.end());
 
-    
+    /**
+     * @brief dp[coins_used][money_required]
+     */
+
+    vector<vector<int>> dp(n+1, vector<int>(M+1, 0)); dp[0][0] = 1;
+
+    for (int nc=1; nc<=n; nc++) for(int m=0; m<=M; m++) {
+        // Have nc coins to make money m
+        dp[nc][m] = dp[nc-1][m];
+        if (m >= a[nc-1]) dp[nc][m] += dp[nc][m-a[nc-1]];
+        dp[nc][m] %= MOD;
+    }
+
+    cout << dp[n][M];
 }
 
 
