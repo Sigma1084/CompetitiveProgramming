@@ -1,14 +1,14 @@
 #include <bits/stdc++.h>
 using namespace std;
-typedef long long int ll;
-const int MOD = 1e9 + 7;
 
 void solve() {
     int n; cin >> n;
-    vector<int> a(n); for (auto &x: a) cin >> x;
+    string s; cin >> s;
+    sort(s.begin(), s.end());
 
-    
+    cout << s;
 }
+
 
 int main() {
     ios::sync_with_stdio(false);
@@ -21,6 +21,6 @@ int main() {
         // cout << "Case #" << i << ": ";
         solve(); cout << '\n';
     }
+
     return 0;
 }
-
