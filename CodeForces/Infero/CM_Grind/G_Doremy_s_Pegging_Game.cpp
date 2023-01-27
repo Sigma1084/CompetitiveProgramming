@@ -3,37 +3,40 @@ using namespace std;
 typedef int64_t ll;
 #define all(x) (x).begin(), (x).end()
 
-template <class T>
-T _pow(T a, int64_t b) { T ans = 1; for (; b; b /= 2, a *= a) if (b % 2) ans *= a; return ans; }
+int P = 1'000'000'007;
 
-int P = 1e9 + 7;
-struct MI {
-	using ll = int64_t;
-	ll val = 0;
-	MI() = default;
-	MI(const ll &v): val((P + v%P) % P) {}
-	MI(const int &v): MI((ll) v) {}
+class Z {
+	int val = 0;
 	void normalize() { if (val < 0) val += P; if (val > P) val -= P; }
-	MI operator - () const { return MI(-val); }
-	MI operator ++ (int) { return operator+=(1); }
-	MI operator -- (int) { return operator-=(1); }
+public:
+	Z() = default;
+	template<class T> Z(const T &v): val((P + v%P) % P) {}
+	Z(const Z &z) = default;
+	Z operator - () const { return Z(0) -= val; }
 	int operator ()() const { return val; }
-	MI& operator += (const MI &a) { val += a.val; normalize(); return *this; }
-	MI& operator -= (const MI &a) { val -= a.val; normalize(); return *this; }
-	MI& operator *= (const MI &a) { (val *= a.val) %= P; return *this; }
-	MI inv() const { return _pow(*this, P-2); }
-	MI& operator /= (const MI &a) { (val *= a.inv().val) %= P; return *this; }
-	bool operator == (const MI &a) { return val == a.val; }
-	bool operator != (const MI &a) { return val != a.val; }
-	friend MI operator + (const MI &a, const MI &b) { MI ans = a; return ans += b; }
-	friend MI operator - (const MI &a, const MI &b) { MI ans = a; return ans -= b; }
-	friend MI operator * (const MI &a, const MI &b) { MI ans = a; return ans *= b; }
-	friend MI operator / (const MI &a, const MI &b) { MI ans = a; return ans /= b; }
-	friend std::ostream& operator << (std::ostream &o, const MI &m) { return o << m.val; }
-	friend std::istream& operator >> (std::istream &i, MI &m) { return i >> m.val; }
+	Z pow(int64_t b) const {
+		assert(b >= 0); Z ans = 1;
+		for (Z a = *this; b; b /= 2, a *= a) if (b % 2) ans *= a;
+		return ans;
+	}
+	Z inv() const { return pow(P-2); }
+	Z& operator += (const Z &a) { val += a.val; normalize(); return *this; }
+	Z& operator -= (const Z &a) { val -= a.val; normalize(); return *this; }
+	Z& operator *= (const Z &a) { val = (int64_t) val * a.val % P; return *this; }
+	Z& operator /= (const Z &a) { *this *= a.inv(); return *this; }
+	Z& operator ++ (int) { return operator+=(1); }
+	Z& operator -- (int) { return operator-=(1); }
+	Z operator + (const Z &b) { return Z(*this) += b; }
+	Z operator - (const Z &b) { return Z(*this) -= b; }
+	Z operator * (const Z &b) { return Z(*this) *= b; }
+	Z operator / (const Z &b) { return Z(*this) /= b; }
+	bool operator == (const Z &a) const { return val == a.val; }
+	bool operator != (const Z &a) const { return val != a.val; }
+	bool operator < (const Z &a) const { return val < a.val; }
+	bool operator > (const Z &a) const { return val > a.val; }
+	friend std::ostream& operator << (std::ostream &o, const Z &m) { return o << m.val; }
+	friend std::istream& operator >> (std::istream &i, Z &m) { return i >> m.val; }
 };
-
-typedef MI Z;
 
 
 
@@ -44,7 +47,7 @@ void solve() {
 	for (int i = 1; i <= n; i++)
 		fact[i] = fact[i-1] * i;
 	for (int i = 0; i <= n; i++)
-		factInv[i] = 1 / fact[i];
+		factInv[i] = (Z) 1 / fact[i];
 
 	Z ans = 0;
 
@@ -54,16 +57,16 @@ void solve() {
 	if (n % 2) {
 		for (int d = 1; 2*d < n; d++) {
 			for (int m = 0; m < d; m++) {
-				ans += d * fact[n-3-m] * fact[d-1] * factInv[m] * factInv[d-1-m];
+				ans += (Z) d * fact[n-3-m] * fact[d-1] * factInv[m] * factInv[d-1-m];
 			}
 		}
 	} else {
 		for (int d = 1; 2*d < n; d++) {
 			for (int m = 0; m < d; m++) {
-				ans += (d+1) * fact[n-3-m] * fact[d-1] * factInv[m] * factInv[d-1-m];
+				ans += (Z) (d+1) * fact[n-3-m] * fact[d-1] * factInv[m] * factInv[d-1-m];
 			}
 		}
-		ans += (n-2) * fact[n-3];  // The opposite case
+		ans += fact[n-3] * (n-2);  // The opposite case
 	}
 
 	ans *= n;  // Can end at any arbitary knot

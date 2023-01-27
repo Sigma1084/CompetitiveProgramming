@@ -3,7 +3,7 @@ using namespace std;
 typedef int64_t ll;
 #define all(x) (x).begin(), (x).end()
 
-int P = 1'000'000'007;
+constexpr int P = 1'000'000'007;
 
 class Z {
 	int val = 0;
@@ -24,8 +24,6 @@ public:
 	Z& operator -= (const Z &a) { val -= a.val; normalize(); return *this; }
 	Z& operator *= (const Z &a) { val = (int64_t) val * a.val % P; return *this; }
 	Z& operator /= (const Z &a) { *this *= a.inv(); return *this; }
-	Z& operator ++ (int) { return operator+=(1); }
-	Z& operator -- (int) { return operator-=(1); }
 	Z operator + (const Z &b) { return Z(*this) += b; }
 	Z operator - (const Z &b) { return Z(*this) -= b; }
 	Z operator * (const Z &b) { return Z(*this) *= b; }
@@ -39,42 +37,53 @@ public:
 };
 
 
-void solve() {
-	int n; cin >> n >> P;
-	vector<int> a(n + 1);
-	for (int i = 1; i <= n; i++)
-		cin >> a[i];
-
-	set<Z> s;
-	for (int i = 1; i <= n; i++)
-		s.insert(a[i] - a.back());
-
-	Z ans = P - 1;
-	for (; s.count(ans) and ans != 0; ans -= 1)
-		s.erase(ans);
-
-	int finAns = ans();
-	int i = n-1;
-	while (a[i] == P-1) i--;
-	s.insert(a[i] + 1 - a.back());  // We produce an extra
-	if (i < n-1) s.insert(0 - a.back());  // We produce a 0 as well
-	
-	for (; s.count(ans) and ans != 0; ans -= 1)
-		s.erase(ans);
-	
-	finAns = min(finAns, max(P - a.back(), ans()));
-	
-	cout << finAns;
-}
+/**
+ * After k chars, suppose we have s openings and e endings
+ * if e > s at some point, clearly no
+ * 
+ * Otherwise, we are at (s, e)
+ * The number of ways of reaching (n, n) going above the y = x line
+ * will be the same as the number of paths going from (s, e) to (n-1, n+1)
+ */
 
 int main() {
 	ios::sync_with_stdio(false); cin.tie(nullptr);
 
-	int t = 1;
-	cin >> t;
+	int n; cin >> n;
+	string ss; cin >> ss;
 
-	for (int i = 1; i <= t; i++) {
-		solve(); cout << '\n';
+	if (n & 1) {
+		cout << 0 << endl;
+		return 0;
 	}
+
+	n >>= 1;
+
+	int s = 0, e = 0;
+	for (char &c: ss) {
+		if (c == '(') s++;
+		else e++;
+		if (e > s or s > n) {
+			cout << 0 << endl;
+			return 0;
+		}
+	}
+
+	if (s == n) {
+		cout << 1 << endl;
+		return 0;
+	}
+
+	int x = n-s, y = n-e;
+	// ans = (x+y)C(x) - (x-1 + y+1)C(x-1)
+	
+	Z xFact = 1, yFact = 1, xPyFact = 1;
+	for (int i = 2; i <= x; i++) xFact *= i;
+	for (int i = 2; i <= y; i++) yFact *= i;
+	for (int i = 2; i <= x+y; i++) xPyFact *= i;
+
+	Z ans = xPyFact / (xFact * yFact) - (xPyFact / (xFact / x * yFact * (y+1)));
+	cout << ans << endl;
+
 	return 0;
 }

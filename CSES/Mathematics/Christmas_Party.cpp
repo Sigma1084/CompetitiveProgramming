@@ -3,7 +3,7 @@ using namespace std;
 typedef int64_t ll;
 #define all(x) (x).begin(), (x).end()
 
-int P = 1'000'000'007;
+constexpr int P = 1000000007;
 
 class Z {
 	int val = 0;
@@ -24,8 +24,6 @@ public:
 	Z& operator -= (const Z &a) { val -= a.val; normalize(); return *this; }
 	Z& operator *= (const Z &a) { val = (int64_t) val * a.val % P; return *this; }
 	Z& operator /= (const Z &a) { *this *= a.inv(); return *this; }
-	Z& operator ++ (int) { return operator+=(1); }
-	Z& operator -- (int) { return operator-=(1); }
 	Z operator + (const Z &b) { return Z(*this) += b; }
 	Z operator - (const Z &b) { return Z(*this) -= b; }
 	Z operator * (const Z &b) { return Z(*this) *= b; }
@@ -38,43 +36,24 @@ public:
 	friend std::istream& operator >> (std::istream &i, Z &m) { return i >> m.val; }
 };
 
-
-void solve() {
-	int n; cin >> n >> P;
-	vector<int> a(n + 1);
-	for (int i = 1; i <= n; i++)
-		cin >> a[i];
-
-	set<Z> s;
-	for (int i = 1; i <= n; i++)
-		s.insert(a[i] - a.back());
-
-	Z ans = P - 1;
-	for (; s.count(ans) and ans != 0; ans -= 1)
-		s.erase(ans);
-
-	int finAns = ans();
-	int i = n-1;
-	while (a[i] == P-1) i--;
-	s.insert(a[i] + 1 - a.back());  // We produce an extra
-	if (i < n-1) s.insert(0 - a.back());  // We produce a 0 as well
-	
-	for (; s.count(ans) and ans != 0; ans -= 1)
-		s.erase(ans);
-	
-	finAns = min(finAns, max(P - a.back(), ans()));
-	
-	cout << finAns;
-}
+/**
+ * Find the n-th dearragement
+ * d(n) = (n - 1) * (d(n-1) + d(n-2))
+ */
 
 int main() {
 	ios::sync_with_stdio(false); cin.tie(nullptr);
 
-	int t = 1;
-	cin >> t;
+	int n; cin >> n;
+	array<Z, 3> dp = {1, 0, 0};
 
-	for (int i = 1; i <= t; i++) {
-		solve(); cout << '\n';
+	for (int i = 2; i <= n; i++) {
+		dp[2] = (dp[1] + dp[0]) * (i-1);
+		dp[0] = dp[1];
+		dp[1] = dp[2];
 	}
+
+	cout << dp[1];
+
 	return 0;
 }

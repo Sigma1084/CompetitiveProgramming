@@ -4,18 +4,7 @@ typedef int64_t ll;
 #define all(x) (x).begin(), (x).end()
 
 
-template<typename T>
-T binPow(T a, uint64_t b) {
-	T m = T(1);
-	for (; b; b /= 2, a *= a) {
-		if (b & 1) {
-			m *= a;
-		}
-	}
-	return m;
-}
-
-constexpr int P = 1000000007;
+constexpr int P = 1'000'000'007;
 
 class Z {
 	int val = 0;
@@ -35,7 +24,7 @@ public:
 	Z& operator += (const Z &a) { val += a.val; normalize(); return *this; }
 	Z& operator -= (const Z &a) { val -= a.val; normalize(); return *this; }
 	Z& operator *= (const Z &a) { val = (int64_t) val * a.val % P; return *this; }
-	Z& operator /= (const Z &a) { return operator*=(a.inv()); }
+	Z& operator /= (const Z &a) { *this *= a.inv(); return *this; }
 	friend Z operator + (const Z &a, const Z &b) { return Z(a) += b; }
 	friend Z operator - (const Z &a, const Z &b) { return Z(a) -= b; }
 	friend Z operator * (const Z &a, const Z &b) { return Z(a) *= b; }
@@ -49,40 +38,40 @@ public:
 };
 
 
-class Matrix: public std::array<std::array<Z, 2>, 2> {
-public:
-	using Base = std::array<std::array<Z, 2>, 2>;
-	using Base::Base;
-	Matrix (int c) { (*this)[0][0] = (*this)[1][1] = c; }
-	Matrix (const Base &b): Base(b) {}
-	friend Matrix operator * (const Matrix &m1, const Matrix &m2) {
-		Matrix ans;
-		ans[0][0] = m1[0][0] * m2[0][0] + m1[0][1] * m2[1][0];
-		ans[0][1] = m1[0][0] * m2[0][1] + m1[0][1] * m2[1][1];
-		ans[1][0] = m1[1][0] * m2[0][0] + m1[1][1] * m2[1][0];
-		ans[1][1] = m1[1][0] * m2[0][1] + m1[1][1] * m2[1][1];
-		return ans;
+void solve() {
+	int n; cin >> n;
+	vector<vector<int>> edges(n+1);
+	for (int i = 1; i < n; i++) {
+		int u, v; cin >> u >> v;
+		edges[u].push_back(v);
+		edges[v].push_back(u);
 	}
-	Matrix& operator *= (const Matrix &m) { return *this = *this * m; }
-	friend std::ostream& operator << (std::ostream &o, const Matrix &m) {
-		return o << m[0][0] << ' ' << m[0][1] << ' ' << m[1][0] << ' ' << m[1][1];
-	}
-};
+
+	Z ans = 0;
+	function<int(int, int)> dfs = [&](int u, int p) {
+		int dep = 1;
+		for (const int &v: edges[u]) {
+			if (v == p) continue;
+			dep = max(dfs(v, u) + 1, dep);
+		}
+		ans += Z(dep) / 2;
+		return dep;
+	};
+	dfs(1, 0);
+	ans *= Z(2).pow(n);
+
+	cout << ans;
+}
 
 
 int main() {
 	ios::sync_with_stdio(false); cin.tie(nullptr);
 
-	uint64_t n; cin >> n;
+	int t = 1;
+	cin >> t;
 
-	if (n == 0) {
-		cout << 0 << endl;
-		return 0;
+	for (int i = 1; i <= t; i++) {
+		solve(); cout << '\n';
 	}
-	
-	Matrix m = Matrix::Base { array<Z, 2>{1, 1}, array<Z, 2>{1, 0} };
-	m = binPow(m, n - 1);
-	cout << m[0][0] << endl;
-
 	return 0;
 }

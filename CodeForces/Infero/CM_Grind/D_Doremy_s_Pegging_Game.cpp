@@ -39,39 +39,45 @@ public:
 };
 
 
+
 void solve() {
 	int n; cin >> n >> P;
-	vector<int> a(n + 1);
+
+	vector<Z> fact(n + 1), factInv(n + 1); fact[0] = 1;
 	for (int i = 1; i <= n; i++)
-		cin >> a[i];
+		fact[i] = fact[i-1] * i;
+	for (int i = 0; i <= n; i++)
+		factInv[i] = (Z) 1 / fact[i];
 
-	set<Z> s;
-	for (int i = 1; i <= n; i++)
-		s.insert(a[i] - a.back());
+	Z ans = 0;
 
-	Z ans = P - 1;
-	for (; s.count(ans) and ans != 0; ans -= 1)
-		s.erase(ans);
+	// Assume things end with knot 1 and the second knot is d right from 1
+	// m is the number of mid knots being there
 
-	int finAns = ans();
-	int i = n-1;
-	while (a[i] == P-1) i--;
-	s.insert(a[i] + 1 - a.back());  // We produce an extra
-	if (i < n-1) s.insert(0 - a.back());  // We produce a 0 as well
-	
-	for (; s.count(ans) and ans != 0; ans -= 1)
-		s.erase(ans);
-	
-	finAns = min(finAns, max(P - a.back(), ans()));
-	
-	cout << finAns;
+	if (n % 2) {
+		for (int d = 1; 2*d < n; d++) {
+			for (int m = 0; m < d; m++) {
+				ans += (Z) d * fact[n-3-m] * fact[d-1] * factInv[m] * factInv[d-1-m];
+			}
+		}
+	} else {
+		for (int d = 1; 2*d < n; d++) {
+			for (int m = 0; m < d; m++) {
+				ans += (Z) (d+1) * fact[n-3-m] * fact[d-1] * factInv[m] * factInv[d-1-m];
+			}
+		}
+		ans += (Z) (n-2) * fact[n-3];  // The opposite case
+	}
+
+	ans *= n;  // Can end at any arbitary knot
+	cout << ans;
 }
 
 int main() {
 	ios::sync_with_stdio(false); cin.tie(nullptr);
 
 	int t = 1;
-	cin >> t;
+	// cin >> t;
 
 	for (int i = 1; i <= t; i++) {
 		solve(); cout << '\n';

@@ -192,7 +192,7 @@ struct SegmentTree {
 	/**
 	 * @brief Construct a new Segment Tree object
 	 * @param _n Number of elements
-	 * @param init Inital xue
+	 * @param init Initial xue
 	 * @param operation Operation
 	 */
 	SegmentTree(const int &_n, const T &init, const Operation_t &operation):
