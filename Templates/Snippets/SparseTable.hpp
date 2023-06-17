@@ -5,11 +5,12 @@ template<typename T>
 class SparseTable {
 	const int K;
 	std::vector<std::vector<T>> st;
-	typedef std::function<T(T&, T&)> Merger;
+	using Merger = std::function<T(T&, T&)>;
 	const Merger merger;
 public:
 	static T& min (T &a, const T &b) { return a = std::min(a, b); }
 	static T& max (T &a, const T &b) { return a = std::max(a, b); }
+	static T& gcd (T &a, const T &b) { return a = std::gcd(a, b); }
 
 	SparseTable(const std::vector<int> &a, int K, Merger _merger)
 	: K(K), merger(_merger) {

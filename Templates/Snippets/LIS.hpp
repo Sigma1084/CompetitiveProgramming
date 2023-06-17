@@ -1,8 +1,8 @@
 #include <bits/stdc++.h>
 
 class LIS {
-	typedef std::array<int, 2> arr2;
-	static bool compSecond (const arr2 &a, const arr2 &b) {
+	using arr2 = std::array<int, 2>;
+	static bool compSecond(arr2 a, arr2 b) {
 		return a[1] < b[1];
 	}
 public:
