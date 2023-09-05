@@ -14,7 +14,7 @@ std::vector<ll> dijkstra(
 		const std::vector<std::vector<std::array<int, 2>>> &graph,
 		int source) {
 	int n = graph.size();
-	assert(0 <= source < n);
+	assert(0 <= source and source < n);
 
 	/**
 	 * Initially, set the distance from the source vertex to all
