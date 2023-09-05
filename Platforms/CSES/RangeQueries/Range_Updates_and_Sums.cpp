@@ -114,12 +114,12 @@ public:
 
 
 using T = long long;
-using U = long long;
+using U = pair<int, long long>;
 struct SegTree: LazySegTreeBase<T, U> {
     constexpr static T idElement = 0;
 
     // {1, _} means add and {2, _} means assign  
-    constexpr static U idUpdate = 0;
+    constexpr static U idUpdate = {0, 0};
     enum {ADD = 1, ASSIGN = 2};
 
     SegTree(int n): LazySegTreeBase<T, U>(n, idElement, idUpdate) {}
@@ -131,11 +131,27 @@ struct SegTree: LazySegTreeBase<T, U> {
 
     U& mergeUpdate(U& update, U newUpdate) override {
         // This is the updating operation
-        return update += newUpdate;
+        if (update == idUpdate) {
+            // No previous update
+            update = newUpdate;
+        } else if (newUpdate.first == ASSIGN) {
+            // New assign
+            update = newUpdate;
+        } else if (newUpdate.first == ADD) {
+            // Assign by this new number
+            update.second += newUpdate.second;
+        }
+        return update;
     }
 
     void consume(int node) override {
-        tree[node] += lazy[node] * sizeOf(node);
+        if (lazy[node].first == ASSIGN) {
+            // Assign
+            tree[node] = 1LL * sizeOf(node) * lazy[node].second;
+        } else if (lazy[node].first == ADD) {
+            // Add
+            tree[node] += 1LL * sizeOf(node) * lazy[node].second;
+        }
     }
 };
 
@@ -148,26 +164,26 @@ int main() {
     cin >> n >> nQ;
 
     vector<int> a(n);
-    for (int &x : a) {
-        cin >> x;
+    for (int i = 0; i < n; i++) {
+        cin >> a[i];
     }
 
-    SegTree st(n);
-    st.assign(a);
+    SegTree sg(n);
+    sg.assign(a);
 
-    for (int t, a, b, u; nQ; nQ--) {
-        cin >> t;
+    for (int t, a, b, x; nQ; nQ--) {
+        cin >> t >> a >> b;
+        a--, b--;
         if (t == 1) {
-            cin >> a >> b >> u;
-            st.update(a - 1, b - 1, u);
+            cin >> x;
+            sg.update(a, b, {SegTree::ADD, x});
         } else if (t == 2) {
-            cin >> u;
-            cout << st.query(u - 1, u - 1) << '\n';
+            cin >> x;
+            sg.update(a, b, {SegTree::ASSIGN, x});
         } else {
-            assert(false);
+            cout << sg.query(a, b) << '\n';
         }
     }
 
     return 0;
 }
-
