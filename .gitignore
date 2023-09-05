@@ -6,5 +6,3 @@ CMakeLists.txt
 .vscode
 .cph
 
-runner.cpp
-*/test_input.txt
