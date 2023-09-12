@@ -1,0 +1,12 @@
+add_executable(test_ordered_mset test_ordered_mset.cpp)
+target_link_libraries(test_ordered_mset data_structures)
+
+add_executable(test_lazy_segment_tree test_lazy_segment_tree.cpp)
+target_link_libraries(test_lazy_segment_tree range_queries)
+
+add_executable(test_sparse_table test_sparse_table.cpp)
+target_link_libraries(test_sparse_table range_queries)
+
+add_executable(test_et_lca test_et_lca.cpp)
+add_compile_options(test_et_lca -fsanitize=address)
+target_link_libraries(test_et_lca graphs_trees)
