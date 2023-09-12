@@ -1,10 +1,12 @@
 #pragma once
+#include <iostream>
+using std::ostream;
 
 constexpr int P = 1'000'000'007;
 
 class Z {
 	int val = 0;
-	void normalize() { if (val < 0) val += P; if (val > P) val -= P; }
+	void normalize() { if (val < 0) val += P; if (val >= P) val -= P; }
 public:
 	Z() = default;
 	template<class T> Z(const T &v): val((P + v%P) % P) {}
@@ -29,4 +31,5 @@ public:
 	Z operator / (Z a) { return Z(*this) /= a; }
 	constexpr bool operator == (Z a) const { return val == a.val; }
 	constexpr bool operator != (Z a) const { return val != a.val; }
+    friend ostream& operator << (ostream &os, Z a) { return os << a(); }
 };
