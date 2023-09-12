@@ -8,6 +8,7 @@
  * @param graph The graph represented as an adjacency matrix.
  * @return The shortest path between all pairs of vertices in the graph.
  */
+[[maybe_unused]]
 std::vector<std::vector<ll>> floydWarshall(
 		const std::vector<std::vector<std::array<int, 2>>> &graph) {
 	int n = graph.size();

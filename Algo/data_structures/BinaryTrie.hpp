@@ -16,8 +16,8 @@ private:
 	void _print(Node *cur, std::string pref, std::iostream &io) const {
 		if (cur == nullptr) return;
 		io << cur->weight << " ";
-		_print(cur->at(0), pref + ' ', io);
-		_print(cur->at(1), pref + ' ', io);
+		_print(cur->at(0), pref + "  ", io);
+		_print(cur->at(1), pref + "  ", io);
 	}
 
 public:

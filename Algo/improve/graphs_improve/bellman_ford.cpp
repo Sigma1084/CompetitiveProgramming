@@ -13,6 +13,7 @@
  * @param source The source vertex.
  * @return The shortest path from the source vertex to all the other vertices.
  */
+[[maybe_unused]]
 std::vector<ll> bellmanFord(
 		const std::vector<std::vector<std::array<int, 2>>> &graph,
 		int source) {

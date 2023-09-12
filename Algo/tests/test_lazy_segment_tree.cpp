@@ -1,9 +1,7 @@
+#include "../range_queries/LazySegmentTree.hpp"
+#include <cassert>
 #include <iostream>
 #include <numeric>
-#include <cassert>
-#include <LazySegmentTree.hpp>
-
-using namespace std;
 
 int main() {
 	constexpr int n = 5;
