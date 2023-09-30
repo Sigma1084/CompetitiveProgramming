@@ -1,4 +1,4 @@
-add_library(sig_cp "" graphs_trees/Tree.hpp graphs_trees/LCA.hpp)
+add_library(sig_cp "")
 
 target_sources(sig_cp
         PRIVATE

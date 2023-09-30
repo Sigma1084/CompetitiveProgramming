@@ -1,5 +1,3 @@
-#include <functional>
-#include <stack>
 #include <vector>
 
 class Tree {
@@ -20,10 +18,6 @@ protected:
 	std::vector<int> _in;    // in[u] = index of u in the euler tour
 	std::vector<int> _out;   // out[u] = last index of the subtree of u
 
-	/**
-	 * @brief Depth First Search to build the Euler Tour
-	 * @param u The current node
-	 */
 	void dfs(int u) {
 		_tour.push_back(u);
 		_in[u] = _tour.size() - 1;
@@ -49,11 +43,6 @@ public:
 		buildET(edges, _root);
 	}
 
-	/**
-	 * @brief Build the Euler Tour
-	 * @param _edges
-	 * @param _root
-	 */
 	void buildET(const std::vector<std::vector<int>> &_edges, int _root = 0) {
 		edges = _edges;
 		n = edges.size();
@@ -71,14 +60,7 @@ public:
 		dfs(root);
 	}
 
-	/**
-	 * @brief Get the size of the tree
-	 * @return size of the tree
-	 */
-	constexpr int size () const {
-		return n;
-	}
-
+	constexpr int size () const { return n; }
 	const std::vector<std::vector<int>>& e = edges;
 
 	const std::vector<int> &p = parent;

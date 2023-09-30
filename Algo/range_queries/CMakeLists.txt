@@ -4,6 +4,7 @@ target_sources(range_queries
         PRIVATE
         LazySegmentTree.hpp
         SparseTable.hpp
+        Fenwick.hpp
         PUBLIC
         range_queries.cpp
         )
