@@ -1,4 +1,5 @@
 #include <bits/stdc++.h>
+using namespace std;
 using ll = long long;
 
 
@@ -114,15 +115,15 @@ public:
 using T = long long;
 using U = long long;
 struct SegTree: LazySegTreeBase<T, U> {
-    constexpr static T idElement = 0;
-    constexpr static U idUpdate = -1;  // -1 for assignment
+    constexpr static T idElement = -1e18;
+    constexpr static U idUpdate = 0;
 
     SegTree(int n): LazySegTreeBase<T, U>(n, idElement, idUpdate) {}
 
 private:
     T merge(T t1, T t2) override {
         // This is the querying operation
-        return t1 + t2;
+        return std::max(t1, t2);
     }
 
     U& mergeUpdate(U& update, U newUpdate) override {
@@ -131,30 +132,40 @@ private:
     }
 
     void consume(int node) override {
-        tree[node] = sizeOf(node) * lazy[node];
+        tree[node] += lazy[node];
     }
 };
 
 
 int main() {
-    std::ios::sync_with_stdio(false);
-    std::cin.tie(nullptr);
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
 
-    int n, nQ; std::cin >> n >> nQ;
-    std::vector<int> a(n);
-    for (auto& x: a) std::cin >> x;
+    int n, nQ; cin >> n >> nQ;
+    vector<ll> a(n);
+    for (ll &i: a) cin >> i;
 
-    SegTree st(n);
-    st.assign(a);
+    for (int i = 1; i < n; i++) {
+        a[i] += a[i - 1];
+    }
 
-    for (int t, k, u, a, b; nQ--; ) {
-        std::cin >> t;
+    SegTree seg(n);
+    seg.assign(a);
+
+    for (int t, k, u, l, r; nQ--; ) {
+        cin >> t;
         if (t == 1) {
-            std::cin >> k >> u;
-            st.update(k - 1, k - 1, u);
+            cin >> k >> u; k--;
+            seg.update(k, n - 1, u - a[k]);
+            a[k] = u;
         } else if (t == 2) {
-            std::cin >> a >> b;
-            std::cout << st.query(a - 1, b - 1) << "\n";
+            cin >> l >> r; l--; r--;
+            ll ans = seg.query(l, r);
+            if (l != 0) {
+                ans -= seg.query(l - 1, l - 1);
+            }
+            ans = std::max(0LL, ans);
+            cout << ans << '\n';
         } else {
             assert(false);
         }

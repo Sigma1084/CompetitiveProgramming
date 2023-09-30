@@ -17,6 +17,7 @@ void solve() {
         i -= k;
     }
 
+    // Now, we have i in [k, 2k)
     int t = i / 2;
     ans ^= query(1) ^ query(t + 1) ^ query(i);
 

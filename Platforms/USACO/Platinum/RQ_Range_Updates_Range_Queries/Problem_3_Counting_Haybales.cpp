@@ -1,4 +1,5 @@
 #include <bits/stdc++.h>
+using namespace std;
 using ll = long long;
 
 
@@ -111,18 +112,18 @@ public:
     }
 };
 
-using T = long long;
-using U = long long;
+using T = std::array<int, 2>;
+using U = int;  // Number to add
 struct SegTree: LazySegTreeBase<T, U> {
-    constexpr static T idElement = 0;
-    constexpr static U idUpdate = -1;  // -1 for assignment
+    constexpr static T idElement = {INT_MAX / 2, 0};
+    constexpr static U idUpdate = 0;
 
     SegTree(int n): LazySegTreeBase<T, U>(n, idElement, idUpdate) {}
 
 private:
     T merge(T t1, T t2) override {
         // This is the querying operation
-        return t1 + t2;
+        return {std::min(t1[0], t2[0]), t1[1] + t2[1]};
     }
 
     U& mergeUpdate(U& update, U newUpdate) override {
@@ -131,30 +132,42 @@ private:
     }
 
     void consume(int node) override {
-        tree[node] = sizeOf(node) * lazy[node];
+        tree[node][0] += lazy[node];
+        tree[node][1] += sizeOf(node) * lazy[node];
     }
 };
 
 
 int main() {
-    std::ios::sync_with_stdio(false);
-    std::cin.tie(nullptr);
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
 
-    int n, nQ; std::cin >> n >> nQ;
-    std::vector<int> a(n);
-    for (auto& x: a) std::cin >> x;
+    freopen("haybales.in", "r", stdin);
+    freopen("haybales.out", "w", stdout);
 
-    SegTree st(n);
-    st.assign(a);
+    int n, nQ; cin >> n >> nQ;
+    vector<T> a(n);
+    for (auto &[x, y]: a) {
+        cin >> x;
+        y = x;
+    }
 
-    for (int t, k, u, a, b; nQ--; ) {
-        std::cin >> t;
-        if (t == 1) {
-            std::cin >> k >> u;
-            st.update(k - 1, k - 1, u);
-        } else if (t == 2) {
-            std::cin >> a >> b;
-            std::cout << st.query(a - 1, b - 1) << "\n";
+    SegTree seg(n);
+    seg.assign(a);
+
+    while (nQ--) {
+        char t; cin >> t;
+        int a, b; cin >> a >> b;
+        a--; b--;
+        if (t == 'M') {
+            cout << seg.query(a, b)[0];
+            if (nQ) cout << '\n';
+        } else if (t == 'P') {
+            int c; cin >> c;
+            seg.update(a, b, c);
+        } else if (t == 'S') {
+            cout << seg.query(a, b)[1];
+            if (nQ) cout << '\n';
         } else {
             assert(false);
         }

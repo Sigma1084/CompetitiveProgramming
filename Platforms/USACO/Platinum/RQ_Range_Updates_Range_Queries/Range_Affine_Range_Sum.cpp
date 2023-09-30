@@ -1,5 +1,38 @@
 #include <bits/stdc++.h>
+using namespace std;
 using ll = long long;
+
+constexpr int P = 998244353;
+
+class Z {
+    int val = 0;
+    void normalize() { if (val < 0) val += P; if (val >= P) val -= P; }
+public:
+    constexpr Z() = default;
+    template<class T> constexpr Z(const T &v): val((P + v%P) % P) {}
+    constexpr Z(const Z &z) = default;
+    Z operator - () const { return Z(0) -= val; }
+    constexpr int operator ()() const { return val; }
+    Z pow(unsigned long long b) const {
+        Z ans = 1;
+        for (Z a = *this; b; b /= 2, a *= a) if (b % 2) ans *= a;
+        return ans;
+    }
+    Z inv() const { return pow(P - 2); }
+    Z& operator += (Z a) { val += a.val; normalize(); return *this; }
+    Z& operator -= (Z a) { val -= a.val; normalize(); return *this; }
+    Z& operator *= (Z a) { val = 1LL * val * a.val % P; return *this; }
+    Z& operator /= (Z a) { return *this *= a.inv(); }
+    Z& operator ++ (int) { return operator+=(1); }
+    Z& operator -- (int) { return operator-=(1); }
+    Z operator + (Z a) const { return Z(*this) += a; }
+    Z operator - (Z a) const { return Z(*this) -= a; }
+    Z operator * (Z a) const { return Z(*this) *= a; }
+    Z operator / (Z a) const { return Z(*this) /= a; }
+    constexpr bool operator == (Z a) const { return val == a.val; }
+    constexpr bool operator != (Z a) const { return val != a.val; }
+    friend ostream& operator << (ostream &os, Z a) { return os << a(); }
+};
 
 
 template <typename T, typename U = T>
@@ -111,11 +144,11 @@ public:
     }
 };
 
-using T = long long;
-using U = long long;
+using T = Z;
+using U = std::array<Z, 2>;
 struct SegTree: LazySegTreeBase<T, U> {
-    constexpr static T idElement = 0;
-    constexpr static U idUpdate = -1;  // -1 for assignment
+    constexpr static T idElement = Z(0);
+    constexpr static U idUpdate = U{Z(1), Z(0)};
 
     SegTree(int n): LazySegTreeBase<T, U>(n, idElement, idUpdate) {}
 
@@ -126,35 +159,37 @@ private:
     }
 
     U& mergeUpdate(U& update, U newUpdate) override {
-        // This is the updating operation
-        return update += newUpdate;
+        // a2 (a1 x + b1) + b2 = a2 a1 x + a2 b1 + b2
+        update[0] *= newUpdate[0];
+        update[1] = update[1] * newUpdate[0] + newUpdate[1];
+        return update;
     }
 
     void consume(int node) override {
-        tree[node] = sizeOf(node) * lazy[node];
+        // This is the update operation
+        tree[node] = tree[node] * lazy[node][0] + lazy[node][1] * sizeOf(node);
     }
 };
 
 
 int main() {
-    std::ios::sync_with_stdio(false);
-    std::cin.tie(nullptr);
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
 
-    int n, nQ; std::cin >> n >> nQ;
-    std::vector<int> a(n);
-    for (auto& x: a) std::cin >> x;
+    int n, nQ; cin >> n >> nQ;
+    vector<int> a(n);
+    for (auto &x: a) cin >> x;
 
-    SegTree st(n);
-    st.assign(a);
+    SegTree seg(n);
+    seg.assign(a);
 
-    for (int t, k, u, a, b; nQ--; ) {
-        std::cin >> t;
-        if (t == 1) {
-            std::cin >> k >> u;
-            st.update(k - 1, k - 1, u);
-        } else if (t == 2) {
-            std::cin >> a >> b;
-            std::cout << st.query(a - 1, b - 1) << "\n";
+    for (int t, l, r, a, b; nQ--; ) {
+        cin >> t >> l >> r; r--;
+        if (t == 0) {
+            cin >> a >> b;
+            seg.update(l, r, {a, b});
+        } else if (t == 1) {
+            cout << seg.query(l, r) << '\n';
         } else {
             assert(false);
         }

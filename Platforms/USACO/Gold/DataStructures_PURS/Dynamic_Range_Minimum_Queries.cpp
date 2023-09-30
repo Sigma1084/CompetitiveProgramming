@@ -1,4 +1,5 @@
 #include <bits/stdc++.h>
+using namespace std;
 using ll = long long;
 
 
@@ -111,23 +112,23 @@ public:
     }
 };
 
-using T = long long;
-using U = long long;
+using T = int;
+using U = int;
 struct SegTree: LazySegTreeBase<T, U> {
-    constexpr static T idElement = 0;
-    constexpr static U idUpdate = -1;  // -1 for assignment
+    constexpr static T idElement = 1e9;
+    constexpr static U idUpdate = -1;
 
     SegTree(int n): LazySegTreeBase<T, U>(n, idElement, idUpdate) {}
 
 private:
     T merge(T t1, T t2) override {
         // This is the querying operation
-        return t1 + t2;
+        return min(t1, t2);
     }
 
     U& mergeUpdate(U& update, U newUpdate) override {
         // This is the updating operation
-        return update += newUpdate;
+        return update = newUpdate;
     }
 
     void consume(int node) override {
@@ -137,26 +138,25 @@ private:
 
 
 int main() {
-    std::ios::sync_with_stdio(false);
-    std::cin.tie(nullptr);
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
 
-    int n, nQ; std::cin >> n >> nQ;
-    std::vector<int> a(n);
-    for (auto& x: a) std::cin >> x;
+    int n, nQ;
+    cin >> n >> nQ;
 
-    SegTree st(n);
-    st.assign(a);
+    SegTree segTree(n);
+    vector<int> v(n);
+    for (int &i: v) cin >> i;
+    segTree.assign(v);
 
     for (int t, k, u, a, b; nQ--; ) {
-        std::cin >> t;
+        cin >> t;
         if (t == 1) {
-            std::cin >> k >> u;
-            st.update(k - 1, k - 1, u);
-        } else if (t == 2) {
-            std::cin >> a >> b;
-            std::cout << st.query(a - 1, b - 1) << "\n";
+            cin >> k >> u;
+            segTree.update(k - 1, k - 1, u);
         } else {
-            assert(false);
+            cin >> a >> b;
+            cout << segTree.query(a - 1, b - 1) << '\n';
         }
     }
 

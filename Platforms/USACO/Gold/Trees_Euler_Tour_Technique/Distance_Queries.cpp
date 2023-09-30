@@ -18,33 +18,16 @@ private:
     std::vector<std::vector<T>> st;
     Merger merge;
 
-public:
-    /**
-     * @brief Default constructor
-     */
-    SparseTable() = default;
-
-    /**
-     * @brief Default copy constructor
-     */
-    SparseTable(const SparseTable<T> &st) = default;
-
-    /**
-     * @brief Construct a new Sparse Table object
-     * @tparam V The type of the elements in the vector
-     * @param a Vector to be processed
-     * @param merge The merge function
-     */
-    template<class V>
-    SparseTable(const std::vector<V> &a, Merger merge) {
-        build(a, merge);
+    T query(int l, int r, int k) {
+        return merge(st[k][l], st[k][r - (1 << k) + 1]);
     }
 
-    /**
-     * @brief Build the sparse table
-     * @param a Vector to be processed
-     * @tparam V The type of the elements in the vector
-     */
+public:
+    SparseTable() = default;
+    SparseTable(const SparseTable<T> &st) = default;
+    template<class V>
+    SparseTable(const std::vector<V> &a, Merger merge) { build(a, merge); }
+
     template<class V>
     void build(const std::vector<V> &a, Merger _merge) {
         merge = _merge;
@@ -55,9 +38,9 @@ public:
         st[0].resize(n);
         std::copy(a.begin(), a.end(), st[0].begin());
 
-        for (int i = 1; i <= K; ++i) {
+        for (int i = 1; i <= K; i++) {
             st[i].resize(n - (1 << i) + 1);
-            for (int j = 0; j < static_cast<int>(n - (1 << i) + 1); ++j) {
+            for (int j = 0; j < static_cast<int>(n - (1 << i) + 1); j++) {
                 st[i][j] = merge(
                     st[i - 1][j],
                     st[i - 1][j + (1 << (i - 1))]
@@ -66,21 +49,10 @@ public:
         }
     }
 
-    /**
-     * @brief Get the sparse table object for debugging
-     * @return A const reference to the sparse table
-     */
     const std::vector<std::vector<T>>& operator () () const {
         return st;
     }
 
-    /**
-     * @brief Range Query in O(1)
-     * @param l Left index of the query
-     * @param r Right index of the query
-     * @return The result of the query
-     */
-    [[maybe_unused]] [[nodiscard]]
     T query(int l, int r) {
         if (l > r) {
             throw std::invalid_argument("l must be <= r");
@@ -91,12 +63,6 @@ public:
     }
 };
 
-
-/**
- * @brief Euler Tour of a tree
- * @details Euler Tour is the order in which the nodes of a tree are visited
- * in a DFS traversal.
- */
 class Tree {
 protected:
     int n = 0;
@@ -115,10 +81,6 @@ protected:
     std::vector<int> _in;    // in[u] = index of u in the euler tour
     std::vector<int> _out;   // out[u] = last index of the subtree of u
 
-    /**
-     * @brief Depth First Search to build the Euler Tour
-     * @param u The current node
-     */
     void dfs(int u) {
         _tour.push_back(u);
         _in[u] = _tour.size() - 1;
@@ -144,11 +106,6 @@ public:
         buildET(edges, _root);
     }
 
-    /**
-     * @brief Build the Euler Tour
-     * @param _edges 
-     * @param _root 
-     */
     void buildET(const std::vector<std::vector<int>> &_edges, int _root = 0) {
         edges = _edges;
         n = edges.size();
@@ -178,20 +135,11 @@ public:
     const std::vector<int> &out = _out;
 };
 
-
-/**
- * @brief Lowest Common Ancestor using Euler Tour
- * @details Uses RMQ on Euler Tour to find the LCA of two nodes
- */
 class LCATree: public Tree {
     SparseTable<int> rmq;
 public:
     using Tree::Tree;
 
-    /**
-     * @brief Build the LCA table
-     * @details Uses RMQ on Euler Tour to build the LCA table
-     */
     void buildLCA() {
         if (root == -1) {
             throw std::runtime_error("Tree not built yet");
@@ -202,19 +150,12 @@ public:
         }
     }
 
-    /**
-     * @brief Returns the Least Common Ancestor of two nodes
-     * @param u
-     * @param v
-     * @return least common ancestor of u and v
-     */
     int lca(int u, int v) {
         if (rmq().empty()) buildLCA();
         return rmq.query(std::min(_in[u], _in[v]),
             std::max(_out[u], _out[v]));
     }
 };
-
 
 int main() {
     std::ios::sync_with_stdio(false);
@@ -224,19 +165,21 @@ int main() {
     std::cin >> n >> nQ;
 
     std::vector<std::vector<int>> e(n);
-    for (int u = 1, p; u < n; u++) {
-        std::cin >> p; p--;
-        e[u].push_back(p);
-        e[p].push_back(u);
+    for (int i = 0, u, v; i + 1 < n; i++) {
+        std::cin >> u >> v;
+        u--; v--;
+        e[u].push_back(v);
+        e[v].push_back(u);
     }
 
-    LCATree t;
-    t.buildET(e);
-    t.buildLCA();
+    LCATree tree(e);
+    tree.buildLCA();
 
-    for (int a, b; nQ--; ) {
-        std::cin >> a >> b;
-        std::cout << t.lca(a - 1, b - 1) + 1 << '\n';
+    for (int u, v, p; nQ--; ) {
+        std::cin >> u >> v;
+        u--; v--;
+        p = tree.lca(u, v);
+        std::cout << tree.d[u] + tree.d[v] - 2 * tree.d[p] << '\n';
     }
 
     return 0;
