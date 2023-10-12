@@ -1,0 +1,229 @@
+#include <bits/stdc++.h>
+using namespace std;
+using ll = long long;
+
+bool debug = false;
+
+template <typename T, typename U = T>
+class LazySegTreeBase {
+protected:
+    const int n;  // The size of the array
+    std::vector<T> tree;  // The segment tree
+    std::vector<U> lazy;  // Stores the updates
+    std::vector<int> nL, nR;  // Stores the bounds of each node
+
+    // The below functions to be implemented by the user
+    virtual T merge(T t1, T t2) = 0;
+    virtual U& mergeUpdate(U& update, U newUpdate) = 0;
+    virtual void consume(int node) = 0;
+
+    constexpr bool outOfRange(int node, int l, int r) const {
+        return nR[node] < l or r < nL[node];
+    }
+
+    constexpr bool completelyInRange(int node, int l, int r) const {
+        return l <= nL[node] and nR[node] <= r;
+    }
+
+    constexpr bool isLeaf(int node) const {
+        return node >= n;
+    }
+
+    constexpr int sizeOf(int node) const {
+        return nR[node] - nL[node] + 1;
+    }
+
+private:
+    void push(int node) {
+        if (lazy[node] == lazy[0]) return;  // Nothing to push
+
+        // Propagate the update to the children
+        if (!isLeaf(node)) {
+            mergeUpdate(lazy[node * 2], lazy[node]);
+            mergeUpdate(lazy[node * 2 + 1], lazy[node]);
+        }
+
+        consume(node);  // Consume the update
+        lazy[node] = lazy[0];  // Clear the update
+    }
+
+    void pull(int node) {
+        tree[node] = merge(tree[node * 2], tree[node * 2 + 1]);
+    }
+
+    T _query(int node, int l, int r) {
+        push(node);  // Updating the current node
+
+        if (outOfRange(node, l, r)) return tree[0];
+        if (completelyInRange(node, l, r)) return tree[node];
+
+		if (debug) {
+			auto [p1, s1, b1] = _query(node * 2, l, r);
+			auto [p2, s2, b2] = _query(node * 2 + 1, l, r);
+			cerr << "Querying [" << nL[node] + 1 << ", " << nR[node] + 1 << "]"
+			        << " with range " << l+1 << " " << r+1 << '\n';
+			cerr << "Left: " << p1 << " " << s1 << " " << b1 << '\n';
+			cerr << "Right: " << p2 << " " << s2 << " " << b2 << '\n';
+			auto [p, s, b] = merge({p1, s1, b1}, {p2, s2, b2});
+			cerr << "Merged: " << p << " " << s << " " << b << "\n\n";
+			return {p, s, b};
+		}
+
+        return merge(_query(node * 2, l, r),
+            _query(node * 2 + 1, l, r));
+    }
+
+    void _update(int node, U update, int l, int r) {
+        // The fact that update is called means there will be a pull
+        push(node);  // Have to push before updating
+
+        if (outOfRange(node, l, r)) return;  // node out of range
+
+        if (completelyInRange(node, l, r)) {
+            // Perfect overlap.
+            lazy[node] = update;
+            push(node);
+        } else {
+            // Partial overlap.
+            _update(node * 2, update, l, r);
+            _update(node * 2 + 1, update, l, r);
+            pull(node);  // a pull is necessary after updating
+        }
+    }
+
+public:
+    LazySegTreeBase(int _n, T idElement = T(), U idUpdate = U()):
+            n(1 << static_cast<int>(ceil(log2(_n)))) {
+        tree.resize(2 * n, idElement);
+        lazy.resize(2 * n, idUpdate);
+        nL.resize(2 * n);
+        nR.resize(2 * n);
+
+        std::iota(nL.begin() + n, nL.end(), 0);
+        std::iota(nR.begin() + n, nR.end(), 0);
+
+        for (int i = n - 1; i > 0; i--) {
+            nL[i] = nL[2 * i];
+            nR[i] = nR[2 * i + 1];
+        }
+    };
+
+    template<class V>
+    void assign(const std::vector<V> &v) {
+        std::copy(v.begin(), v.end(), tree.begin() + n);
+        for (int node = n - 1; node > 0; node--) {
+            tree[node] = merge(tree[node * 2], tree[node * 2 + 1]);
+        }
+    }
+
+    T query(int l, int r) {
+        return _query(1, l, r);
+    }
+
+    void update(int l, int r, U update) {
+        _update(1, update, l, r);
+    }
+};
+
+// PREFIX SUFFIX
+using T = tuple<string, string, bool>;
+using U = int;
+
+struct SegTree: LazySegTreeBase<T, U> {
+    T idElement = T();
+    constexpr static U idUpdate = 0;
+
+    SegTree(int n): LazySegTreeBase<T, U>(n, T(), idUpdate) {}
+private:
+    T merge(T t1, T t2) override {
+        // This is the querying operation
+        if (t1 == idElement) return t2;
+        if (t2 == idElement) return t1;
+
+        auto [p1, s1, b1] = t1;
+        auto [p2, s2, b2] = t2;
+        T res;
+        auto &[p, s, b] = res;
+        b = b1 or b2;
+
+        p = (p1 + p2).substr(0, 2);
+        s = (s1 + s2);
+        s = s.substr(s.size() - 2, 2);
+
+        auto midStr = s1 + p2;
+        for (int i = 0; i + 1 < midStr.size(); ++i) {
+            b |= midStr[i] == midStr[i+1];
+            if (i+2 < midStr.size()) {
+                b |= midStr[i] == midStr[i+2];
+            }
+        }
+
+        return res;
+    }
+
+    U& mergeUpdate(U& update, U newUpdate) override {
+        // This is the updating operation
+        return (update += newUpdate) %= 26;
+    }
+
+    void consume(int node) override {
+        auto &[p, s, b] = tree[node];
+        int u = lazy[node];
+
+        for (auto &c: s) {
+            c = (c - 'a' + u) % 26 + 'a';
+        }
+        for (auto &c: p) {
+            c = (c - 'a' + u) % 26 + 'a';
+        }
+    }
+};
+
+
+void solve() {
+    int n, nQ;
+    cin >> n >> nQ;
+
+    string str;
+    cin >> str;
+
+    SegTree st(n);
+    vector<T> v(n);
+    for (int i = 0; i < n; ++i) {
+        auto &[p, s, b] = v[i];
+        p = s = str[i];
+        b = false;
+    }
+    st.assign(v);
+
+    for (int t, l, r, x; nQ--; ) {
+        cin >> t >> l >> r;
+        if (t == 1) {
+            cin >> x;
+            st.update(l - 1, r - 1, x);
+        } else if (t == 2) {
+            auto [p, s, b] = st.query(l - 1, r - 1);
+            cout << (b ? "NO" : "YES") << '\n';
+        } else {
+            assert(false);
+        }
+    }
+}
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+	freopen("input.txt", "r", stdin);
+	freopen("output_temp.txt", "w", stdout);
+
+    int t = 1;
+    cin >> t;
+
+    while (t--) {
+        solve();
+        cout << '\n';
+    }
+
+    return 0;
+}
