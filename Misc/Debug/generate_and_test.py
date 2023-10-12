@@ -62,22 +62,22 @@ def test():
         f.write(res)
 
     # Run the solutions
-    os.system("./temp")
+    os.system("./sol")
     os.system("./brute")
 
     # Compare the outputs
-    with open("output_temp.txt", "r") as f:
-        output_temp = f.read()
+    with open("output_sol.txt", "r") as f:
+        output_sol = f.read()
 
     with open("output_brute.txt", "r") as f:
         output_brute = f.read()
 
-    for line_temp, line_brute in zip(output_temp.split("\n"),
-                                     output_brute.split("\n")):
-        if line_temp != line_brute:
+    for line_sol, line_brute in zip(output_sol.split("\n"),
+                                    output_brute.split("\n")):
+        if line_sol != line_brute:
             print("Wrong answer")
             print("input:", res)
-            print("temp:", line_temp)
+            print("temp:", line_sol)
             print("brute:", line_brute)
             exit(0)
 
