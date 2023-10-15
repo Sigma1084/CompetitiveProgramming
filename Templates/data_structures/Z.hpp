@@ -31,5 +31,5 @@ public:
 	Z operator / (Z a) { return Z(*this) /= a; }
 	constexpr bool operator == (Z a) const { return val == a.val; }
 	constexpr bool operator != (Z a) const { return val != a.val; }
-    friend ostream& operator << (ostream &os, Z a) { return os << a(); }
+	friend ostream& operator << (ostream &os, Z a) { return os << a(); }
 };

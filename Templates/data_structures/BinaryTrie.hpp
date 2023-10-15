@@ -15,15 +15,15 @@ private:
 	Node* root;
 	const int maxBitLen;
 
-	void _print(Node *cur, std::string pref, std::iostream &io) const {
+	void _print(Node *cur, std::string pref, std::ostream &out) const {
 		if (cur == nullptr) return;
-		io << cur->weight << " ";
-		_print(cur->at(0), pref + ' ', io);
-		_print(cur->at(1), pref + ' ', io);
+		out << pref << ": " << cur->weight << '\n';
+		_print(cur->at(0), pref + '0', out);
+		_print(cur->at(1), pref + '1', out);
 	}
 
 public:
-	BinaryTrie(int maxBitLen = 32): root(new Node()) ,maxBitLen(maxBitLen) {}
+	BinaryTrie(int maxBitLen = 32): root(new Node()), maxBitLen(maxBitLen) {}
 
 	void insert(int x) {
 		Node *curr = root;
@@ -41,22 +41,24 @@ public:
 		int ans = 0;
 		for (int i = maxBitLen - 1; i >= 0; --i) {
 			int bit = (x >> i) & 1;
-			if (!curr->at(bit ^ 1) or curr->at(bit ^ 1)->weight == 0) {
-				ans |= (1 << i);
-				curr = curr->at(bit ^ 1);
-			} else {
+			if (curr->at(bit) and curr->at(bit)->weight > 0) {
+				if (bit) ans |= (1 << i);
 				curr = curr->at(bit);
+			} else {
+				if (!bit) ans |= (1 << i);
+				curr = curr->at(bit ^ 1);
 			}
 		}
 		return ans;
 	}
 
 	int farthest(int x) const {
-		return closest(~x);
+		return closest((1 << maxBitLen) - 1 - x);
 	}
 
-	std::iostream& operator << (std::iostream &io) const {
-		_print(root, "", io);
-		return io;
+	// Overload operator << for debugging
+	friend std::ostream& operator << (std::ostream &out, const BinaryTrie &trie) {
+		trie._print(trie.root, "", out);
+		return out;
 	}
 };
