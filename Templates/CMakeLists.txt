@@ -5,11 +5,14 @@ target_sources(sig_cp
         data_structures/Z.hpp
         range_queries/LazySegmentTree.hpp
         graphs_trees/DSU.hpp
+        range_queries/Fenwick.hpp
         range_queries/SparseTable.hpp
         data_structures/BinaryTrie.hpp
         data_structures/ordered_mset.hpp
         functions/LIS.hpp
-        functions/seive.hpp
+        number_theory/sieve.hpp
+        number_theory/modular.hpp
+        number_theory/combinatorics.hpp
         PUBLIC
         sig_cp.cpp
         )

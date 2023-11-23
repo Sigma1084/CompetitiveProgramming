@@ -3,26 +3,27 @@ using namespace std;
 using ll = long long;
 
 void solve() {
-    int n; cin >> n;
+    int n;
+    cin >> n;
 
     vector<int> a(n);
-    for (int i = 0; i < n; i++) {
-        cin >> a[i];
+    for (auto &x: a) {
+        cin >> x;
     }
 
     
 }
 
 int main() {
-    ios::sync_with_stdio(false);
-    cin.tie(nullptr);
+    std::ios::sync_with_stdio(false);
+    std::cin.tie(nullptr);
 
     int t = 1;
-    cin >> t;
+    std::cin >> t;
 
-    while (t--) {
+    for (int i = 1; i <= t; ++i) {
         solve();
-        cout << '\n';
+        std::cout << '\n';
     }
 
     return 0;

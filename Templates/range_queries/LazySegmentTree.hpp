@@ -82,7 +82,7 @@ private:
 
 public:
 	LazySegTreeBase(int _n, T idElement = T(), U idUpdate = U()):
-			n(1 << static_cast<int>(ceil(log2(_n)))) {
+			n(1 << std::__lg(2 * _n - 1)) {
 		tree.resize(2 * n, idElement);
 		lazy.resize(2 * n, idUpdate);
 		nL.resize(2 * n);

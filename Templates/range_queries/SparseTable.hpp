@@ -37,7 +37,7 @@ public:
 	template<class V>
 	void build(const std::vector<V> &a, Merger _merge) {
 		merge = _merge;
-		K = std::log2(a.size());
+		K = std::__lg(a.size());
 
 		st.resize(K + 1);
 		std::size_t n = a.size();
@@ -63,7 +63,7 @@ public:
 		if (l > r) {
 			throw std::invalid_argument("l must be <= r");
 		} else {
-			int k = std::log2(r - l + 1);
+			int k = std::__lg(r - l + 1);
 			return merge(st[k][l], st[k][r - (1 << k) + 1]);
 		}
 	}
