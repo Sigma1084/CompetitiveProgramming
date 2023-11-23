@@ -1,30 +1,28 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-void solve() {
-    int nT, nC, temp; cin >> nT >> nC;
-    multiset<int> t; for (int i=0; i<nT; i++) cin >> temp, t.insert(temp);
-
-    for (int i=0; i<nC; i++) {
-        cin >> temp;
-        auto it = t.upper_bound(temp);
-        if (it == t.begin()) cout << -1;
-        else --it, cout << *it, t.erase(it);
-        cout << '\n';
-    }
-}
-
-
 int main() {
-    ios::sync_with_stdio(false);
-    cin.tie(nullptr); cout.tie(nullptr);
+    std::ios::sync_with_stdio(false);
+    std::cin.tie(nullptr);
 
-    int t = 1;
-    // cin >> t;
+    int n, m;
+    cin >> n >> m;
 
-    for (int i=1; i<=t; i++) {
-        // cout << "Case #" << i << ": ";
-        solve(); cout << '\n';
+    multiset<int, greater<>> tickets;
+    for (int i = 0, x; i < n; ++i) {
+        cin >> x;
+        tickets.insert(x);
+    }
+
+    for (int i = 0, x; i < m; ++i) {
+        cin >> x;
+        auto it = tickets.lower_bound(x);
+        if (it == tickets.end()) {
+            cout << -1 << '\n';
+        } else {
+            cout << *it << '\n';
+            tickets.erase(it);
+        }
     }
 
     return 0;

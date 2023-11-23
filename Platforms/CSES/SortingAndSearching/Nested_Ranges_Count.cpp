@@ -54,12 +54,12 @@ int main() {
     }
 
     for (int x: C) {
-        cout << bool(x) << ' ';
+        cout << x << ' ';
     }
     cout << '\n';
 
     for (int x: c) {
-        cout << bool(x) << ' ';
+        cout << x << ' ';
     }
     cout << '\n';
 

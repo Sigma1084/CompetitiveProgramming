@@ -1,43 +1,30 @@
 #include <bits/stdc++.h>
-using namespace std;
-
-void solve() {
-    int n, x; cin >> n >> x;
-    vector<int> b(n); for (auto &x: b) cin >> x;
-    vector<int> a = b;
-    sort(a.begin(), a.end());
-
-    int s = 0, e = n-1;
-    while(s < e) {
-        int sm = a[s] + a[e];
-        if (sm == x) break;
-        if (sm < x) s++;
-        else e--;
-    }
-
-    if (s < e) {
-        auto x = find(b.begin(), b.end(), a[s]);
-        auto y = x;
-        if (a[s] == a[e]) y = find(next(x), b.end(), a[e]);
-        else y = find(b.begin(), b.end(), a[e]);
-        cout << (x - b.begin() + 1) << ' ' << (y - b.begin() + 1);
-    } else {
-        cout << "IMPOSSIBLE";
-    }
-}
-
 
 int main() {
-    ios::sync_with_stdio(false);
-    cin.tie(nullptr); cout.tie(nullptr);
+    std::ios::sync_with_stdio(false);
+    std::cin.tie(nullptr);
 
-    int t = 1;
-    // cin >> t;
+    int n, sum;
+    std::cin >> n >> sum;
 
-    for (int i=1; i<=t; i++) {
-        // cout << "Case #" << i << ": ";
-        solve(); cout << '\n';
+    std::vector<std::array<int, 2>> a(n);
+    for (int i = 0; i < n; ++i) {
+        std::cin >> a[i][0];
+        a[i][1] = i + 1;
     }
+    std::sort(a.begin(), a.end());
+
+    for (int i = 0, j = n - 1; i < j; ) {
+        if (a[i][0] + a[j][0] == sum) {
+            std::cout << a[i][1] << ' ' << a[j][1] << '\n';
+            return 0;
+        } else if (a[i][0] + a[j][0] < sum) {
+            i++;
+        } else {
+            j--;
+        }
+    }
+    std::cout << "IMPOSSIBLE\n";
 
     return 0;
 }

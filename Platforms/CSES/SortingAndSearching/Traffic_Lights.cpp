@@ -1,38 +1,34 @@
 #include <bits/stdc++.h>
 using namespace std;
-typedef long long int ll;
-const int MOD = 1e9 + 7;
-
-void solve() {
-    int x, n, in; cin >> x >> n;
-
-    set<int> lights = {0, x};
-    multiset<int> d = {x};
-
-    int l, u;
-
-    for (int _ = 0; _ < n; _++) {
-        cin >> in;
-        auto lb = lights.lower_bound(in);
-        if (*lb != in) {
-            u = *lb, l = *prev(lb);
-            d.erase(d.find(u-l));
-            d.insert(u - in); d.insert(in - l);
-            lights.insert(in);
-        }
-        cout << *d.rbegin() << ' ';
-    }
-}
 
 int main() {
-    ios::sync_with_stdio(false);
-    cin.tie(nullptr); cout.tie(nullptr);
-    
-    int t = 1;
-    // cin >> t;
+    std::ios::sync_with_stdio(false);
+    std::cin.tie(nullptr);
 
-    for (int i=1; i<=t; i++) {
-        solve();
-        cout << '\n';
-    }	
+    int r, n;
+    cin >> r >> n;
+
+    set<int> s = {0, r};  // light positions
+    multiset<int, greater<>> ms = {r};  // light distances
+    for (int i = 0, x; i < n; ++i) {
+        cin >> x;
+
+        // Calculate the closest lights.
+        auto it = s.lower_bound(x);
+        int r = *it;
+        int l = *prev(it);
+
+        // Update the light distances.
+        ms.erase(ms.find(r - l));
+        ms.insert(x - l);
+        ms.insert(r - x);
+
+        // Insert the new light.
+        s.insert(x);
+
+        // Print the maximum light distance.
+        cout << *ms.begin() << ' ';
+    }
+
+    return 0;
 }

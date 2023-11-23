@@ -1,47 +1,32 @@
-#include <iostream>
-#include <vector>
-#include <algorithm>
+#include <bits/stdc++.h>
 using namespace std;
-typedef long long int ll;
-const int MOD = 1e9 + 7;
- 
-void solve() {
-    int n, req; cin >> n >> req;
-    vector<int> a(n); for(auto &x: a) cin >> x;
-    sort(a.begin(), a.end());
-    
-    if (req == 0) {
-        cout << 0;
-        return;
-    }
-    
-    auto pos = [&] (ll t) -> ll {
-        ll ans = 0;
-        for (auto &x: a) ans += (ll)t / x;
-        return ans;
-    };
-    
-    ll l = 0;
-    ll r = (ll) a.front() * req;
-    
-    ll mid, ans;
-    while (l <= r) {
-        mid = (l + r) / 2;
-        if (pos(mid) >= (ll)req) ans = mid, r = mid - 1;
-        else l = mid + 1;
-    }
-    
-    cout << ans;
-}
- 
+using ll = long long;
+
 int main() {
-    ios::sync_with_stdio(false);
-    cin.tie(nullptr); cout.tie(nullptr);
-    int t = 1;
-    // cin >> t;
-    for (int i=1; i<=t; i++) {
-        solve();
-        cout << '\n';
+    std::ios::sync_with_stdio(false);
+    std::cin.tie(nullptr);
+
+    int n, k;
+    cin >> n >> k;
+
+    vector<int> a(n);
+    for (int &x: a) {
+        cin >> x;
     }
-    cout << endl;
+
+    auto isPos = [&a, k] (ll t) -> bool {
+        ll need = k;
+        for (int x: a) {
+            if (need <= t / x) return true;
+            need -= t / x;
+        }
+        return false;
+    };
+
+    auto range = ranges::iota_view<ll, ll>(1LL, 1e18 + 1);
+    auto ans = *ranges::lower_bound(range, true, less<>(), isPos);
+    
+    cout << ans << '\n';
+
+    return 0;
 }

@@ -1,44 +1,46 @@
 #include <bits/stdc++.h>
 using namespace std;
-typedef long long int ll;
-const int MOD = 1e9 + 7;
+using ll = long long;
+
+/**
+ * 8 => 8*1
+ * 12 => 9*1 + 3*2
+ * 123 => 9*1 + 90*2 + 24*3
+ */
+ll f(ll k) {
+    ll res = 0;
+    for (ll i = 1, v = 9; k; ++i, v *= 10) {
+        res += i * min(k, v);
+        k -= min(k, v);
+    }
+    return res;
+}
+
+constexpr ll K = 1e17;
 
 void solve() {
-    ll n; cin >> n;
+    ll m;
+    cin >> m;
 
-    // Number of single digits => 9
-    // Number of double digits => 90
-    // Number of triple digits => 900
+    auto range = std::ranges::iota_view(1LL, K + 1);
+    ll k = *std::ranges::lower_bound(range, m, std::less<>(), f);
+    m -= f(k - 1);
 
-    int digs = 1;
-    while (n > 9 * digs * pow(10, digs-1)) {
-        n -= 9 * digs * pow(10, digs-1);
-        digs++;
-    }
-
-    // Number of digits per number = digs
-    // Number of numbers to process = n
-    // Current Number = ceil(n / digs)
-
-    string req = to_string((ll) (pow(10, digs-1) + ceil(1.0*n/digs) - 1));
-    req = string(digs-req.size(), '0') + req;
-    int index = (n-1) % digs;
-
-    // cout << n << ' ' << req << '\n';
-    cout << req[index];
+    string s = to_string(k);
+    cout << s[m - 1];
 }
 
 int main() {
-    ios::sync_with_stdio(false);
-    cin.tie(nullptr); cout.tie(nullptr);
+    std::ios::sync_with_stdio(false);
+    std::cin.tie(nullptr);
 
     int t = 1;
-    cin >> t;
+    std::cin >> t;
 
-    for (int i=1; i<=t; i++) {
-        // cout << "Case #" << i << ": ";
-        solve(); cout << '\n';
+    for (int i = 1; i <= t; ++i) {
+        solve();
+        std::cout << '\n';
     }
+
     return 0;
 }
-
