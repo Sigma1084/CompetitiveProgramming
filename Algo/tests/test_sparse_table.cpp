@@ -1,4 +1,4 @@
-#include "../range_queries/SparseTable.hpp"
+#include <SparseTable.hpp>
 #include <cassert>
 #include <iostream>
 #include <numeric>
@@ -20,7 +20,7 @@ int main() {
 	SparseTable<int> st2(v, [&](int a, int b) -> int {
 		return a + b;
 	});
-	std::cout << "Passed ability to change the merger function\n";
+	std::cout << "Custom function worked for basic cases\n";
 
 	// Test that the merger function is actually changed.
 	for (const auto &vec: st2()) {

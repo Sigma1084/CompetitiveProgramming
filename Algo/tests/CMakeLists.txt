@@ -8,5 +8,13 @@ add_executable(test_sparse_table test_sparse_table.cpp)
 target_link_libraries(test_sparse_table range_queries)
 
 add_executable(test_et_lca test_et_lca.cpp)
-add_compile_options(test_et_lca -fsanitize=address)
 target_link_libraries(test_et_lca graphs_trees)
+
+add_executable(test_binary_trie test_binary_trie.cpp)
+target_link_libraries(test_binary_trie data_structures)
+
+add_executable(test_modint test_modint.cpp)
+target_link_libraries(test_modint number_theory)
+
+add_executable(test_number_theory test_number_theory.cpp)
+target_link_libraries(test_number_theory number_theory)

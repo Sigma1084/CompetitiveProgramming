@@ -31,7 +31,7 @@ public:
 	static T bitOr (const T &a, const T &b) { return a | b; }
 
 private:
-	int K;
+	int K{};
 	std::vector<std::vector<T>> st;
 	Merger merge;
 
@@ -102,7 +102,7 @@ public:
 		if (l > r) {
 			throw std::invalid_argument("l must be <= r");
 		} else {
-			int k = std::log2(r - l + 1);
+			int k = std::__lg(r - l + 1);
 			return merge(st[k][l], st[k][r - (1 << k) + 1]);
 		}
 	}

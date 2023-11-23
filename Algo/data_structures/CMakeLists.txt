@@ -2,7 +2,7 @@ add_library(data_structures STATIC)
 
 target_sources(data_structures
         PRIVATE
-        Z.hpp
+        ModInt.hpp
         BinaryTrie.hpp
         ordered_mset.hpp
         PUBLIC

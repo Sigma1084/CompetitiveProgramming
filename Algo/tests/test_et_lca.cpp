@@ -2,7 +2,6 @@
 #include <cassert>
 #include <chrono>
 #include <iostream>
-#include <numeric>
 
 void basicTests() {
 	const int n = 7;

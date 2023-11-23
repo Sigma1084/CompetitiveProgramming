@@ -1,4 +1,4 @@
-#include "../range_queries/LazySegmentTree.hpp"
+#include <LazySegmentTree.hpp>
 #include <cassert>
 #include <iostream>
 #include <numeric>
