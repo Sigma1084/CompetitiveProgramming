@@ -1,9 +1,13 @@
 import random
 import os
+from math import gcd
+from tqdm import tqdm
+import numpy as np
 
 
 def get_array(size, min_value, max_value):
-    return [random.randint(min_value, max_value) for _ in range(size)]
+    arr = [random.randint(min_value, max_value) for _ in range(size)]
+    return arr
 
 
 def array_to_string(array):
@@ -20,50 +24,44 @@ def get_l_r(n):
     return _l, _r
 
 
-def generate_cases(num_tests, min_array_size, max_array_size, min_value,
-                   max_value):
-    arrays = [
-        get_array(
-            size=random.randint(min_array_size, max_array_size),
-            min_value=min_value, max_value=max_value
-        )
-        for _ in range(num_tests)
-    ]
-    return f"{num_tests}\n" + "\n".join([
-        f"{len(array)}  {array_to_string(array)}"
-        for array in arrays
-    ])
+def get_graph(n, sparsity=0.2):
+    mat = np.random.randint(0, int(1 / sparsity), (n, n))
+    edges = list()
+    for i in range(n):
+        for j in range(i + 1, n):
+            if mat[i][j] == 1:
+                edges.append((i + 1, j + 1))
+    return edges
 
 
-T = 200  # Number of test cases
-N = 100  # Max number size
+def get_tree(n):
+    edges = list()
+    for i in range(2, n + 1):
+        edges.append((random.randint(1, i - 1), i))
+    return edges
+
+
+T = 10000  # Number of test cases
+N = 100000
 print_test = True
+compile_initial = True
 
 
 def test():
     res = ""
+
     if print_test:
-        res += "1\n"
+        res += f"{1}\n"
 
-    n = random.randint(1, N)
-    nq = random.randint(1, N)
-    res += f"{n} {nq}\n"
-    res += get_lowercase_string(n) + "\n"
+    # write into res
 
-    for _ in range(nq):
-        t = random.randint(1, 2)
-        l, r = get_l_r(n)
-        res += f"{t} {l} {r}"
-        if t == 1:
-            res += f" {random.randint(1, 26)}"
-        res += "\n"
-
+    # Write the test case to the input file
     with open("input.txt", "w") as f:
         f.write(res)
 
     # Run the solutions
-    os.system("./sol")
-    os.system("./brute")
+    os.system("./sol < input.txt > output_sol.txt")
+    os.system("./brute < input.txt > output_brute.txt")
 
     # Compare the outputs
     with open("output_sol.txt", "r") as f:
@@ -77,12 +75,15 @@ def test():
         if line_sol != line_brute:
             print("Wrong answer")
             print("input:", res)
-            print("temp:", line_sol)
+            print("sol:", line_sol)
             print("brute:", line_brute)
             exit(0)
 
 
 # Generate test cases
 if __name__ == "__main__":
-    for _ in range(T):
+    if compile_initial:
+        os.system("g++ -std=c++20 brute.cpp -o brute")
+        os.system("g++ -std=c++20 sol.cpp -o sol")
+    for i in tqdm(range(T)):
         test()
