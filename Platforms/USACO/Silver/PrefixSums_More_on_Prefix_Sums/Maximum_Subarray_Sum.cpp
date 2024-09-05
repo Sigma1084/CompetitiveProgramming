@@ -6,24 +6,21 @@ int main() {
     std::ios::sync_with_stdio(false);
     std::cin.tie(nullptr);
 
-    int n, k;
-    cin >> n >> k;
+    int n;
+    cin >> n;
 
     vector<int> a(n);
     for (auto &x: a) {
         cin >> x;
     }
 
-    map<ll, int> mp;
-    ll s = 0;
-    mp[0] = 1;
-    ll ans = 0;
+    ll ans = a[0], s = 0;
     for (auto x: a) {
         s += x;
-        if (mp.find(s - k) != mp.end()) {
-            ans += mp.at(s - k);
+        ans = max(ans, s);
+        if (s < 0) {
+            s = 0;
         }
-        mp[s]++;
     }
 
     cout << ans << '\n';
