@@ -1,8 +1,6 @@
 #pragma once
 
 #include <vector>
-#include <cmath>
-#include <array>
 #include <numeric>
 
 template <typename T, typename U = T>
@@ -18,11 +16,11 @@ protected:
 	virtual U& mergeUpdate(U& update, U newUpdate) = 0;
 	virtual void consume(int node) = 0;
 
-	constexpr bool outOfRange(int node, int l, int r) const {
+	constexpr bool outside(int node, int l, int r) const {
 		return nR[node] < l or r < nL[node];
 	}
 
-	constexpr bool completelyInRange(int node, int l, int r) const {
+	constexpr bool inside(int node, int l, int r) const {
 		return l <= nL[node] and nR[node] <= r;
 	}
 
@@ -52,7 +50,7 @@ private:
 		tree[node] = merge(tree[node * 2], tree[node * 2 + 1]);
 	}
 
-	T _query(int node, int l, int r) {
+	T query(int node, int l, int r) {
 		push(node);  // Updating the current node
 
 		if (outOfRange(node, l, r)) return tree[0];
@@ -62,7 +60,7 @@ private:
 			_query(node * 2 + 1, l, r));
 	}
 
-	void _update(int node, U update, int l, int r) {
+	void update(int node, U update, int l, int r) {
 		// The fact that update is called means there will be a pull
 		push(node);  // Have to push before updating
 
