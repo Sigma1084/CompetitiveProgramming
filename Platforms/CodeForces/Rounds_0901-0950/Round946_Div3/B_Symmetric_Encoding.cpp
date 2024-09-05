@@ -9,8 +9,15 @@ void solve() {
     string s;
     cin >> s;
 
-    sort(s.begin(), s.end());
-    cout << s;
+    set<char> st(s.begin(), s.end());
+    map<char, char> mp;
+    for (auto f = st.begin(), b = prev(st.end()); f != st.end(); ++f, --b) {
+        mp[*f] = *b;
+    }
+
+    for (auto c: s) {
+        cout << mp[c];
+    }
 }
 
 int main() {

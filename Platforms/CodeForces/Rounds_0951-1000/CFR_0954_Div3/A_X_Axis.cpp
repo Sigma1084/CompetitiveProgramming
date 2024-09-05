@@ -3,14 +3,15 @@ using namespace std;
 using ll = long long;
 
 void solve() {
-    int n;
-    cin >> n;
+    int x, y, z;
+    cin >> x >> y >> z;
 
-    string s;
-    cin >> s;
+    int ans = INT_MAX;
+    ans = min(ans, abs(x - y) + abs(x - z));
+    ans = min(ans, abs(y - x) + abs(y - z));
+    ans = min(ans, abs(z - x) + abs(z - y));
 
-    sort(s.begin(), s.end());
-    cout << s;
+    cout << ans;
 }
 
 int main() {

@@ -6,11 +6,21 @@ void solve() {
     int n;
     cin >> n;
 
-    string s;
-    cin >> s;
+    vector<int> a(n);
+    for (auto &x: a) {
+        cin >> x;
+    }
 
-    sort(s.begin(), s.end());
-    cout << s;
+    for (int i = 0; i < n; ++i) {
+        if (is_sorted(a.begin(), a.end())) {
+            cout << "Yes";
+            return;
+        } else {
+            rotate(a.begin(), a.begin() + 1, a.end());
+        }
+    }
+
+    cout << "No";
 }
 
 int main() {

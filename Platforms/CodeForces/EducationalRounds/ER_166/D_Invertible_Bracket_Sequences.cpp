@@ -3,14 +3,24 @@ using namespace std;
 using ll = long long;
 
 void solve() {
-    int n;
-    cin >> n;
-
     string s;
     cin >> s;
 
-    sort(s.begin(), s.end());
-    cout << s;
+    vector<int> o(s.size() / 2 + 1);
+    o[0] = 1;  // 1 valid opening
+
+    int sc = 0;
+    ll ans = 0;
+    for (auto c: s) {
+        if (c == '(') {
+            o[sc++ / 2] = 0;
+        } else {
+            --sc;
+        }
+        ans += o[sc]++;
+    }
+
+    cout << ans;
 }
 
 int main() {

@@ -3,14 +3,17 @@ using namespace std;
 using ll = long long;
 
 void solve() {
-    int n;
-    cin >> n;
+    vector<int> a(3);
+    for (auto &x : a) {
+        cin >> x;
+    }
+    sort(a.begin(), a.end());
 
-    string s;
-    cin >> s;
-
-    sort(s.begin(), s.end());
-    cout << s;
+    if (a[0] == a[1]) {
+        cout << a[2];
+    } else {
+        cout << a[0];
+    }
 }
 
 int main() {

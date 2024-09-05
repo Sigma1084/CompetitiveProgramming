@@ -6,11 +6,19 @@ void solve() {
     int n;
     cin >> n;
 
-    string s;
-    cin >> s;
+    string a, b;
+    cin >> a >> b;
 
-    sort(s.begin(), s.end());
-    cout << s;
+    int ext = 0, req = 0;
+    for (int i = 0; i < n; ++i) {
+        if (a[i] == '1' and b[i] == '0') {
+            ++ext;
+        } else if (a[i] == '0' and b[i] == '1') {
+            ++req;
+        }
+    }
+
+    cout << max(ext, req);
 }
 
 int main() {

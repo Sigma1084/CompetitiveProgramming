@@ -6,11 +6,14 @@ void solve() {
     int n;
     cin >> n;
 
-    string s;
-    cin >> s;
+    vector<int> a(n);
+    for (auto &x: a) {
+        cin >> x;
+    }
 
-    sort(s.begin(), s.end());
-    cout << s;
+    int max = *max_element(a.begin(), a.end());
+    int min = *min_element(a.begin(), a.end());
+    cout << max - min;
 }
 
 int main() {

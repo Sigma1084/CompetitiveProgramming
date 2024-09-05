@@ -9,8 +9,22 @@ void solve() {
     string s;
     cin >> s;
 
-    sort(s.begin(), s.end());
-    cout << s;
+    for (char c: s) {
+        if ('a' <= c and c <= 'z') {
+            
+        } else if ('0' <= c and c <= '9') {
+            
+        } else {
+            cout << "NO";
+            return;
+        }
+    }
+
+    if (is_sorted(s.begin(), s.end())) {
+        cout << "YES";
+    } else {
+        cout << "NO";
+    }
 }
 
 int main() {

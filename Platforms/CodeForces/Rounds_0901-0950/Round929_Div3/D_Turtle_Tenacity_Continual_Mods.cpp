@@ -6,11 +6,26 @@ void solve() {
     int n;
     cin >> n;
 
-    string s;
-    cin >> s;
+    vector<int> a(n);
+    for (auto &x: a) {
+        cin >> x;
+    }
+    sort(a.begin(), a.end());
 
-    sort(s.begin(), s.end());
-    cout << s;
+    if (a[0] != a[1]) {
+        cout << "YES";
+        return;
+    }
+
+    int l = a[0];
+    for (int x: a) {
+        if (x % l) {
+            cout << "YES";
+            return;
+        }
+    }
+
+    cout << "NO";
 }
 
 int main() {

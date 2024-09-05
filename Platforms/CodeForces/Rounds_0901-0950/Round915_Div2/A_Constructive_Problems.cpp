@@ -3,14 +3,10 @@ using namespace std;
 using ll = long long;
 
 void solve() {
-    int n;
-    cin >> n;
-
-    string s;
-    cin >> s;
-
-    sort(s.begin(), s.end());
-    cout << s;
+    int n, m;
+    cin >> n >> m;
+    
+    cout << max(n, m);
 }
 
 int main() {

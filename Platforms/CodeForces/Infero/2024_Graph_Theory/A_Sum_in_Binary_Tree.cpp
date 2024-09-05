@@ -3,14 +3,16 @@ using namespace std;
 using ll = long long;
 
 void solve() {
-    int n;
+    ll n;
     cin >> n;
 
-    string s;
-    cin >> s;
+    ll ans = 0;
+    while (n) {
+        ans += n;
+        n /= 2;
+    }
 
-    sort(s.begin(), s.end());
-    cout << s;
+    cout << ans;
 }
 
 int main() {

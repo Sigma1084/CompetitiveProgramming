@@ -6,11 +6,23 @@ void solve() {
     int n;
     cin >> n;
 
-    string s;
-    cin >> s;
+    vector<int> a(n);
+    for (auto &x: a) {
+        cin >> x;
+    }
+    sort(a.begin(), a.end());
 
-    sort(s.begin(), s.end());
-    cout << s;
+    int m = a[(n - 1) / 2];
+    int ans = 1;
+    for (int i = (n + 1) / 2; i < n; ++i) {
+        if (a[i] == m) {
+            ++ans;
+        } else {
+            break;
+        }
+    }
+
+    cout << ans;
 }
 
 int main() {

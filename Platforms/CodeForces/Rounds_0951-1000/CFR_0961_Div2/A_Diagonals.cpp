@@ -3,14 +3,26 @@ using namespace std;
 using ll = long long;
 
 void solve() {
-    int n;
-    cin >> n;
+    int n, k;
+    cin >> n >> k;
 
-    string s;
-    cin >> s;
+    if (k == 0) {
+        cout << 0;
+        return;
+    }
 
-    sort(s.begin(), s.end());
-    cout << s;
+    int ans = 1;
+    k -= n;
+    for (int i = n - 1; i >= 0 and k > 0; --i) {
+        ans += 1;
+        k -= i;
+        if (k > 0) {
+            ans += 1;
+            k -= i;
+        }
+    }
+
+    cout << ans;
 }
 
 int main() {

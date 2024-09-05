@@ -8,25 +8,13 @@ void solve() {
 
     vector<array<int, 2>> a(n);
     for (auto &[x, y] : a) {
-        cin >> x >> y;
+        cin >> x;
+    }
+    for (auto &[x, y] : a) {
+        cin >> y;
     }
 
-    for (int i = 0; i < n; ++i) {
-        bool ok = true;
-        for (int j = 0; j < n; ++j) {
-            if (i == j) continue;
-            if (abs(a[i][0] - a[j][0]) + abs(a[i][1] - a[j][1]) > k) {
-                ok = false;
-                break;
-            }
-        }
-        if (ok) {
-            cout << 1;
-            return;
-        }
-    }
-
-    cout << -1;
+    cout << ans;
 }
 
 int main() {

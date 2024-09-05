@@ -3,14 +3,11 @@ using namespace std;
 using ll = long long;
 
 void solve() {
-    int n;
-    cin >> n;
+    int n, m;
+    cin >> n >> m;
 
-    string s;
-    cin >> s;
-
-    sort(s.begin(), s.end());
-    cout << s;
+    m /= 2;
+    cout << n * m;
 }
 
 int main() {

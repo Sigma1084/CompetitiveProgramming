@@ -9,8 +9,11 @@ void solve() {
     string s;
     cin >> s;
 
-    sort(s.begin(), s.end());
-    cout << s;
+    int i = 0, j = n - 1;
+    while (i < n and s[i] == 'B') ++i;
+    while (j >= 0 and s[j] == 'A') --j;
+
+    cout << max(0, j - i);
 }
 
 int main() {

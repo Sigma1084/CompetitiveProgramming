@@ -9,8 +9,16 @@ void solve() {
     string s;
     cin >> s;
 
-    sort(s.begin(), s.end());
-    cout << s;
+    array<int, 26> f = {};
+    for (auto c: s) {
+        f[c - 'A']++;
+    }
+
+    int ans = 0;
+    for (int i = 0; i < 26; ++i) {
+        ans += f[i] > i;
+    }
+    cout << ans;
 }
 
 int main() {

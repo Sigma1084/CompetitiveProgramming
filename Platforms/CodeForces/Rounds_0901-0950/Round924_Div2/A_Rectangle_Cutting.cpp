@@ -3,14 +3,20 @@ using namespace std;
 using ll = long long;
 
 void solve() {
-    int n;
-    cin >> n;
+    int a, b;
+    cin >> a >> b;
+    if (a > b) swap(a, b);
 
-    string s;
-    cin >> s;
-
-    sort(s.begin(), s.end());
-    cout << s;
+    // a <= b
+    if (a % 2 == 0) {
+        cout << "Yes";
+    } else if (b % 2 == 1) {
+        cout << "No";
+    } else if (b/2 != a) {
+        cout << "Yes";
+    } else {
+        cout << "No";
+    }
 }
 
 int main() {

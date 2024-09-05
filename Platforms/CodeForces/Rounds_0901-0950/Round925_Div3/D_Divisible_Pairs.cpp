@@ -3,14 +3,20 @@ using namespace std;
 using ll = long long;
 
 void solve() {
-    int n;
-    cin >> n;
+    int n, x, y;
+    cin >> n >> x >> y;
 
-    string s;
-    cin >> s;
+    vector<int> a(n);
+    for (int &ai: a) cin >> ai;
 
-    sort(s.begin(), s.end());
-    cout << s;
+    ll ans = 0;
+    map<pair<int, int>, int> cnt;
+    for (auto e: a) {
+        ans += cnt[{(x - e % x) % x, e % y}];
+        ++cnt[{e % x, e % y}];
+    }
+
+    cout << ans;
 }
 
 int main() {

@@ -3,14 +3,10 @@ using namespace std;
 using ll = long long;
 
 void solve() {
-    int n;
-    cin >> n;
+    int n, k;
+    cin >> n >> k;
 
-    string s;
-    cin >> s;
-
-    sort(s.begin(), s.end());
-    cout << s;
+    cout << (k + 1) / 2 + (k == 4*n - 2);
 }
 
 int main() {

@@ -3,14 +3,10 @@ using namespace std;
 using ll = long long;
 
 void solve() {
-    int n;
-    cin >> n;
-
-    string s;
-    cin >> s;
-
-    sort(s.begin(), s.end());
-    cout << s;
+    int a, b;
+    char ch;
+    cin >> a >> ch >> b;
+    cout << a + b + 1;
 }
 
 int main() {
@@ -18,7 +14,7 @@ int main() {
     std::cin.tie(nullptr);
 
     int t = 1;
-    std::cin >> t;
+    // std::cin >> t;
 
     for (int i = 1; i <= t; ++i) {
         solve();

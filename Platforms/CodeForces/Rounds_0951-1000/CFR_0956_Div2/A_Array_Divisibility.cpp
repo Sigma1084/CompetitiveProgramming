@@ -6,11 +6,9 @@ void solve() {
     int n;
     cin >> n;
 
-    string s;
-    cin >> s;
-
-    sort(s.begin(), s.end());
-    cout << s;
+    for (int i = 1; i <= n; ++i) {
+        cout << i << ' ';
+    }
 }
 
 int main() {

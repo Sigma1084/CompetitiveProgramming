@@ -3,14 +3,12 @@ using namespace std;
 using ll = long long;
 
 void solve() {
-    int n;
-    cin >> n;
+    ll a, b, m;
+    cin >> a >> b >> m;
 
-    string s;
-    cin >> s;
-
-    sort(s.begin(), s.end());
-    cout << s;
+    // Suppose the first one is a
+    ll ans = (a + m) / a + (b + m) / b;
+    cout << ans;
 }
 
 int main() {

@@ -3,14 +3,25 @@ using namespace std;
 using ll = long long;
 
 void solve() {
-    int n;
-    cin >> n;
+    int a, b, l;
+    cin >> a >> b >> l;
 
-    string s;
-    cin >> s;
+    set<int> ks;
 
-    sort(s.begin(), s.end());
-    cout << s;
+    while (l) {
+        int l1 = l;
+        ks.insert(l1);
+        while (l1 % b == 0) {
+            l1 /= b;
+            ks.insert(l1);
+        }
+        if (l % a) {
+            break;
+        }
+        l /= a;
+    }
+
+    cout << ks.size();
 }
 
 int main() {

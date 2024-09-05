@@ -3,14 +3,14 @@ using namespace std;
 using ll = long long;
 
 void solve() {
-    int n;
-    cin >> n;
+    array<int, 3> a;
+    cin >> a[0] >> a[1] >> a[2];
 
-    string s;
-    cin >> s;
+    for (int i = 0; i < 5; ++i) {
+        *min_element(a.begin(), a.end()) += 1;
+    }
 
-    sort(s.begin(), s.end());
-    cout << s;
+    cout << a[0] * a[1] * a[2];
 }
 
 int main() {

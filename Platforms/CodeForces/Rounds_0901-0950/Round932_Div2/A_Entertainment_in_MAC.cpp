@@ -9,7 +9,19 @@ void solve() {
     string s;
     cin >> s;
 
-    sort(s.begin(), s.end());
+    auto t = s;
+    reverse(t.begin(), t.end());
+
+    if (t < s) {
+        swap(s, t);
+        n--;
+    }
+
+    n %= 2;
+    if (n) {
+        s += t;
+    }
+
     cout << s;
 }
 

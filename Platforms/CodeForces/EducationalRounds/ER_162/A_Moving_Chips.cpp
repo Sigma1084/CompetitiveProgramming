@@ -6,11 +6,20 @@ void solve() {
     int n;
     cin >> n;
 
-    string s;
-    cin >> s;
+    vector<int> a(n);
+    for (auto &x: a) {
+        cin >> x;
+    }
 
-    sort(s.begin(), s.end());
-    cout << s;
+    deque<int> dq{a.begin(), a.end()};
+    while (dq.size() and dq.front() == 0) {
+        dq.pop_front();
+    }
+    while (dq.size() and dq.back() == 0) {
+        dq.pop_back();
+    }
+
+    cout << count(dq.begin(), dq.end(), 0);
 }
 
 int main() {

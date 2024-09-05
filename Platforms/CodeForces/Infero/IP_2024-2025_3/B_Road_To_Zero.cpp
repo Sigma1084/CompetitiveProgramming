@@ -3,14 +3,21 @@ using namespace std;
 using ll = long long;
 
 void solve() {
-    int n;
-    cin >> n;
+    int x, y;
+    cin >> x >> y;
 
-    string s;
-    cin >> s;
+    int a, b;
+    cin >> a >> b;
 
-    sort(s.begin(), s.end());
-    cout << s;
+    if (x > y) {
+        swap(x, y);
+    }
+
+    if (2 * a <= b) {
+        cout << 1LL * (x + y) * a;
+    } else {
+        cout << 1LL * x * b + 1LL * (y - x) * a;         
+    }
 }
 
 int main() {

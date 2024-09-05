@@ -9,8 +9,25 @@ void solve() {
     string s;
     cin >> s;
 
-    sort(s.begin(), s.end());
-    cout << s;
+    n++;
+    s += '#';
+
+    int cur = 0;
+    vector<int> v;
+    for (char c: s) {
+        if (c == '#') {
+            v.push_back(cur);
+            cur = 0;
+        } else {
+            cur++;
+        }
+    }
+
+    if (ranges::max(v) > 2) {
+        cout << 2;
+    } else {
+        cout << accumulate(v.begin(), v.end(), 0);
+    }
 }
 
 int main() {

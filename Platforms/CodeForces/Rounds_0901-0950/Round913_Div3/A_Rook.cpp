@@ -3,14 +3,20 @@ using namespace std;
 using ll = long long;
 
 void solve() {
-    int n;
-    cin >> n;
-
     string s;
     cin >> s;
 
-    sort(s.begin(), s.end());
-    cout << s;
+    for (char c = 'a'; c <= 'h'; ++c) {
+        if (c != s[0]) {
+            cout << c << s[1] << '\n';
+        }
+    }
+
+    for (char c = '1'; c <= '8'; ++c) {
+        if (c != s[1]) {
+            cout << s[0] << c << '\n';
+        }
+    }
 }
 
 int main() {

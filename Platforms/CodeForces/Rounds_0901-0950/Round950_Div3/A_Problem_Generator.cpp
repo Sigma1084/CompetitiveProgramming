@@ -3,14 +3,24 @@ using namespace std;
 using ll = long long;
 
 void solve() {
-    int n;
-    cin >> n;
+    int n, m;
+    cin >> n >> m;
 
     string s;
     cin >> s;
 
-    sort(s.begin(), s.end());
-    cout << s;
+    constexpr int N = 'G' - 'A' + 1;
+    array<int, N> cnt{};
+    for (char c : s) {
+        ++cnt[c - 'A'];
+    }
+
+    int ans = 0;
+    for (auto x: cnt) {
+        ans += max(0, m - x);
+    }
+
+    cout << ans;
 }
 
 int main() {

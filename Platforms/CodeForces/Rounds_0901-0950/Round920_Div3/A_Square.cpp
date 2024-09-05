@@ -3,14 +3,14 @@ using namespace std;
 using ll = long long;
 
 void solve() {
-    int n;
-    cin >> n;
+    array<array<int, 2>, 4> a;
+    for (auto &p : a) {
+        cin >> p[0] >> p[1];
+    }
+    sort(a.begin(), a.end());
 
-    string s;
-    cin >> s;
-
-    sort(s.begin(), s.end());
-    cout << s;
+    int area = (a[2][0] - a[1][0]) * (a[1][1] - a[0][1]);
+    cout << area;
 }
 
 int main() {

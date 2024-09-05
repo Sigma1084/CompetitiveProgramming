@@ -6,11 +6,16 @@ void solve() {
     int n;
     cin >> n;
 
-    string s;
-    cin >> s;
+    int ans = 0, val = 0;
+    for (int x = 2; x <= n; ++x) {
+        int m = n / x;
+        if (x * m * (m + 1) / 2 > val) {
+            ans = x;
+            val = x * m * (m + 1) / 2;
+        }
+    }
 
-    sort(s.begin(), s.end());
-    cout << s;
+    cout << ans;
 }
 
 int main() {

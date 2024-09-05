@@ -6,11 +6,18 @@ void solve() {
     int n;
     cin >> n;
 
-    string s;
-    cin >> s;
+    vector<int> a(n);
+    for (auto &x: a) {
+        cin >> x;
+    }
 
-    sort(s.begin(), s.end());
-    cout << s;
+    ll M = 0, m = 0;
+    for (auto x: a) {
+        M = max(M + x, abs(m + x));
+        m += x;
+    }
+
+    cout << M;
 }
 
 int main() {

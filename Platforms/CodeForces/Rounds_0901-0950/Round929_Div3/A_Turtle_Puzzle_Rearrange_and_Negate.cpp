@@ -6,11 +6,13 @@ void solve() {
     int n;
     cin >> n;
 
-    string s;
-    cin >> s;
+    vector<int> a(n);
+    for (auto &x: a) {
+        cin >> x;
+        x = abs(x);
+    }
 
-    sort(s.begin(), s.end());
-    cout << s;
+    cout << accumulate(a.begin(), a.end(), 0LL);
 }
 
 int main() {

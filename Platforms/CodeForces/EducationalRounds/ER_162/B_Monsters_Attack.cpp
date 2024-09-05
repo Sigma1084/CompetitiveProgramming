@@ -6,27 +6,27 @@ void solve() {
     int n, k;
     cin >> n >> k;
 
-    vector<array<int, 2>> a(n);
-    for (auto &[x, y] : a) {
-        cin >> x >> y;
+    vector<int> a(n);
+    for (auto &x: a) {
+        cin >> x;
     }
 
+    vector<int> b(n + 1);
     for (int i = 0; i < n; ++i) {
-        bool ok = true;
-        for (int j = 0; j < n; ++j) {
-            if (i == j) continue;
-            if (abs(a[i][0] - a[j][0]) + abs(a[i][1] - a[j][1]) > k) {
-                ok = false;
-                break;
-            }
-        }
-        if (ok) {
-            cout << 1;
+        int x; cin >> x;
+        b[abs(x)] += a[i];
+    }
+
+    ll cur = 0;
+    for (int i = 0; i <= n; ++i) {
+        if (b[i] > cur) {
+            cout << "NO";
             return;
         }
+        cur += k - b[i];
     }
 
-    cout << -1;
+    cout << "YES";
 }
 
 int main() {

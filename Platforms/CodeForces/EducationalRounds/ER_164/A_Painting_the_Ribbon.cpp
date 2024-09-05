@@ -3,14 +3,14 @@ using namespace std;
 using ll = long long;
 
 void solve() {
-    int n;
-    cin >> n;
+    int n, m, k;
+    cin >> n >> m >> k;
 
-    string s;
-    cin >> s;
-
-    sort(s.begin(), s.end());
-    cout << s;
+    if (k >= n - (n + m - 1) / m) {
+        cout << "NO";
+    } else {
+        cout << "YES";
+    }
 }
 
 int main() {

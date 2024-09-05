@@ -3,14 +3,14 @@ using namespace std;
 using ll = long long;
 
 void solve() {
-    int n;
-    cin >> n;
+    int x, y;
+    cin >> x >> y;
 
-    string s;
-    cin >> s;
-
-    sort(s.begin(), s.end());
-    cout << s;
+    if (y >= -1) {
+        cout << "YES";
+    } else {
+        cout << "NO";
+    }
 }
 
 int main() {

@@ -3,14 +3,20 @@ using namespace std;
 using ll = long long;
 
 void solve() {
-    int n;
-    cin >> n;
+    int x1, y1, x2, y2;
+    std::cin >> x1 >> y1 >> x2 >> y2;
 
-    string s;
-    cin >> s;
+    if (x1 < y1) {
+        std::swap(x1, y1);
+        std::swap(x2, y2);
+    }
 
-    sort(s.begin(), s.end());
-    cout << s;
+    // x1 > y1
+    if (y2 >= x2) {
+        std::cout << "NO";
+    } else {
+        std::cout << "YES";
+    }
 }
 
 int main() {

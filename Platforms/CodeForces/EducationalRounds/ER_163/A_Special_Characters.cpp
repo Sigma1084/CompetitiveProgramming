@@ -5,12 +5,19 @@ using ll = long long;
 void solve() {
     int n;
     cin >> n;
+    cerr << n << '\n';
 
-    string s;
-    cin >> s;
-
-    sort(s.begin(), s.end());
-    cout << s;
+    if (n % 2 == 0) {
+        int i = 0;
+        cout << "YES\n";
+        while (n) {
+            cout << string(2, 'A' + i);
+            i ^= 1;
+            n -= 2;
+        }
+    } else {
+        cout << "NO";
+    }
 }
 
 int main() {

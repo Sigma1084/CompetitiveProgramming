@@ -3,14 +3,16 @@ using namespace std;
 using ll = long long;
 
 void solve() {
-    int n;
-    cin >> n;
+    int n, k;
+    cin >> n >> k;
 
-    string s;
-    cin >> s;
+    vector<int> a(n);
+    iota(a.begin(), a.begin() + k + 1, n - k);
+    iota(a.rbegin(), a.rbegin() + n - k - 1, 1);
 
-    sort(s.begin(), s.end());
-    cout << s;
+    for (auto x: a) {
+        cout << x << ' ';
+    }
 }
 
 int main() {

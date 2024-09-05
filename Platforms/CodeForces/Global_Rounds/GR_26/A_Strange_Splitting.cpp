@@ -6,11 +6,22 @@ void solve() {
     int n;
     cin >> n;
 
-    string s;
-    cin >> s;
+    vector<int> a(n);
+    for (auto &x: a) {
+        cin >> x;
+    }
 
-    sort(s.begin(), s.end());
-    cout << s;
+    if (a.front() == a.back()) {
+        cout << "NO";
+        return;
+    }
+
+    cout << "YES\n";
+    if (a[1] != a.back()) {
+        cout << 'R' + string(n - 1, 'B');
+    } else {
+        cout << string(n - 1, 'R') + 'B';
+    }
 }
 
 int main() {

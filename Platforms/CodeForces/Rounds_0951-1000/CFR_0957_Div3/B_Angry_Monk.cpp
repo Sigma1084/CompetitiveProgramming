@@ -3,14 +3,21 @@ using namespace std;
 using ll = long long;
 
 void solve() {
-    int n;
-    cin >> n;
+    int n, k;
+    cin >> n >> k;
 
-    string s;
-    cin >> s;
+    int mx = 0, sm = 0;
+    for (int i = 0; i < k; ++i) {
+        int x; 
+        cin >> x;
 
-    sort(s.begin(), s.end());
-    cout << s;
+        mx = max(mx, x);
+        sm += x - 1 + x;
+    }
+
+    sm -= mx - 1 + mx;
+
+    cout << sm;
 }
 
 int main() {

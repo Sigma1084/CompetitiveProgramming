@@ -3,13 +3,30 @@ using namespace std;
 using ll = long long;
 
 void solve() {
-    int n;
-    cin >> n;
+    int n, m;
+    cin >> n >> m;
 
     string s;
     cin >> s;
 
-    sort(s.begin(), s.end());
+    vector<int> ch(n);
+    for (int i = 0; i < m; ++i) {
+        int x;
+        cin >> x;
+        --x;
+        ++ch[x];
+    }
+
+    string t;
+    cin >> t;
+    sort(t.begin(), t.end());
+
+    for (int i = 0, j = 0; i < n; ++i) {
+        if (ch[i] > 0) {
+            s[i] = t[j++];
+        }
+    }
+
     cout << s;
 }
 

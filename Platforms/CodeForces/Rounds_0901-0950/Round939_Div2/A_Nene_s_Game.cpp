@@ -3,14 +3,19 @@ using namespace std;
 using ll = long long;
 
 void solve() {
-    int n;
-    cin >> n;
+    int nK, nQ;
+    cin >> nK >> nQ;
 
-    string s;
-    cin >> s;
+    vector<int> aK(nK), aQ(nQ);
+    for (auto &x: aK) cin >> x;
+    for (auto &x: aQ) cin >> x;
 
-    sort(s.begin(), s.end());
-    cout << s;
+    int k = aK.front();
+
+    sort(aK.begin(), aK.end());
+    for (auto n: aQ) {
+        cout << min(n, k - 1) << ' ';
+    }
 }
 
 int main() {

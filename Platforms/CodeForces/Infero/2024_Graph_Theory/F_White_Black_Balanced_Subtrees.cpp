@@ -6,11 +6,22 @@ void solve() {
     int n;
     cin >> n;
 
+    vector<int> p(n);
+    for (int i = 1; i < n; ++i) {
+        cin >> p[i];
+        --p[i];
+    }
+
     string s;
     cin >> s;
 
-    sort(s.begin(), s.end());
-    cout << s;
+    vector<int> sc(n, 0);
+    for (int i = n - 1; i >= 0; --i) {
+        sc[i] += (s[i] == 'W') - (s[i] == 'B');
+        sc[p[i]] += sc[i];
+    }
+
+    cout << count(sc.begin(), sc.end(), 0);
 }
 
 int main() {

@@ -3,14 +3,15 @@ using namespace std;
 using ll = long long;
 
 void solve() {
-    int n;
-    cin >> n;
+    int n, k;
+    cin >> n >> k;
 
-    string s;
-    cin >> s;
+    string s(k, 'a');
+    iota(s.begin(), s.end(), 'a');
 
-    sort(s.begin(), s.end());
-    cout << s;
+    for (int i = 0; i < n; ++i) {
+        cout << s;
+    }
 }
 
 int main() {

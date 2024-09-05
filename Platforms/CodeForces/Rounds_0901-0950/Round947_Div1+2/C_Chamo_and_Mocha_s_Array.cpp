@@ -6,11 +6,19 @@ void solve() {
     int n;
     cin >> n;
 
-    string s;
-    cin >> s;
+    vector<int> a(n);
+    for (auto &x: a) {
+        cin >> x;
+    }
 
-    sort(s.begin(), s.end());
-    cout << s;
+    int ans = min(a[0], a[1]);
+    for (int i = 0; i + 2 < n; ++i) {
+        array<int, 3> b = {a[i], a[i + 1], a[i + 2]};
+        sort(b.begin(), b.end());
+        ans = max(ans, b[1]);
+    }
+
+    cout << ans;
 }
 
 int main() {

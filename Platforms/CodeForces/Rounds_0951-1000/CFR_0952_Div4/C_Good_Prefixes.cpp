@@ -6,11 +6,22 @@ void solve() {
     int n;
     cin >> n;
 
-    string s;
-    cin >> s;
+    vector<int> a(n);
+    for (auto &x: a) {
+        cin >> x;
+    }
 
-    sort(s.begin(), s.end());
-    cout << s;
+    int ans = 0, mx = 0;
+    ll cur = 0;
+    for (int i = 0; i < n; ++i) {
+        mx = max(mx, a[i]);
+        cur += a[i];
+        if (cur == 2 * mx) {
+            ++ans;
+        }
+    }
+
+    cout << ans;
 }
 
 int main() {

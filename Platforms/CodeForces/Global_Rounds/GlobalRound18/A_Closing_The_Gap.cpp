@@ -6,11 +6,12 @@ void solve() {
     int n;
     cin >> n;
 
-    string s;
-    cin >> s;
+    vector<int> a(n);
+    for (auto &x: a) {
+        cin >> x;
+    }
 
-    sort(s.begin(), s.end());
-    cout << s;
+    cout << bool(accumulate(a.begin(), a.end(), 0LL) % n);
 }
 
 int main() {

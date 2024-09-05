@@ -3,14 +3,17 @@ using namespace std;
 using ll = long long;
 
 void solve() {
-    int n;
-    cin >> n;
+    int o, t;
+    cin >> o >> t;
 
-    string s;
-    cin >> s;
+    int ans = (t + 1) / 2;
+    o -= ans * 7 + (t % 2) * 4;
 
-    sort(s.begin(), s.end());
-    cout << s;
+    if (o > 0) {
+        ans += (o + 14) / 15;
+    }
+
+    cout << ans;
 }
 
 int main() {
