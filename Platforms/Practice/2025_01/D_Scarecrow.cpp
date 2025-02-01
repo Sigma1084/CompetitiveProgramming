@@ -3,8 +3,8 @@ using namespace std;
 using ll = long long;
 
 void solve() {
-    int n;
-    cin >> n;
+    int n, k, l;
+    cin >> n >> k >> l;
 
     vector<int> a(n);
     for (auto &x: a) {

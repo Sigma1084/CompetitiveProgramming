@@ -1,0 +1,8 @@
+- BFS, DFS
+- Dijkstra
+- Minimum Spanning Tree
+- SCC (Tarjan's Algorithm)
+- Floyd Warshall Algorithm
+- Flows
+- Kosaraju's
+- A*

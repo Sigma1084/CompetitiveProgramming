@@ -6,12 +6,7 @@ void solve() {
     int n;
     cin >> n;
 
-    vector<int> a(n);
-    for (auto &x: a) {
-        cin >> x;
-    }
-
-    
+    cout << string(n - 1, '0') + '1';
 }
 
 int main() {

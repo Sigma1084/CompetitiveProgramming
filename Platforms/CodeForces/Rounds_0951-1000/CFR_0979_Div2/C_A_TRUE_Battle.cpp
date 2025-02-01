@@ -6,12 +6,15 @@ void solve() {
     int n;
     cin >> n;
 
-    vector<int> a(n);
-    for (auto &x: a) {
-        cin >> x;
+    string s;
+    cin >> s;
+
+    bool ans = s.front() == '1' or s.back() == '1';
+    for (int i = 0; i + 1 < n; ++i) {
+        ans |= s[i] == '1' and s[i+1] == '1';
     }
 
-    
+    cout << (ans ? "YES" : "NO");
 }
 
 int main() {

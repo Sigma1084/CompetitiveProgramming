@@ -6,12 +6,12 @@ void solve() {
     int n;
     cin >> n;
 
-    vector<int> a(n);
-    for (auto &x: a) {
-        cin >> x;
-    }
+    string s = "aeiou";
+    auto [m, r] = std::div(n, 5);
 
-    
+    for (int i = 0; i < 5; ++i) {
+        cout << std::string(m + (i < r), s[i]);
+    }
 }
 
 int main() {

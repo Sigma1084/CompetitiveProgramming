@@ -6,12 +6,18 @@ void solve() {
     int n;
     cin >> n;
 
-    vector<int> a(n);
-    for (auto &x: a) {
-        cin >> x;
+    vector<array<int, 2>> a(n);
+    for (auto &[x, y] : a) {
+        cin >> x >> y;
     }
 
-    
+    sort(a.begin(), a.end(), [](array<int, 2> x, array<int, 2> y) {
+        return x[0] + x[1] < y[0] + y[1];
+    });
+
+    for (auto [x, y] : a) {
+        cout << x << ' ' << y << ' ';
+    }
 }
 
 int main() {

@@ -20,6 +20,7 @@ target_sources(sig_cp
         graphs_trees/DSU.hpp
         graphs_trees/Tree.hpp
         graphs_trees/LCATree.hpp
+        graphs_trees/FlowGraph.hpp
         strings/zFunction.hpp
         PUBLIC
         sig_cp.cpp

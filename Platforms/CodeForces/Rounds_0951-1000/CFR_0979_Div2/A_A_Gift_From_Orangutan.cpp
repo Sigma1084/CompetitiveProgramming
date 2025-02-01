@@ -11,7 +11,10 @@ void solve() {
         cin >> x;
     }
 
-    
+    int mx = *max_element(a.begin(), a.end());
+    int mn = *min_element(a.begin(), a.end());
+
+    cout << (mx - mn) * (n - 1);
 }
 
 int main() {
