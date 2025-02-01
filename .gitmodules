@@ -1,3 +1,7 @@
 [submodule "Rust_CP_Snippets"]
 	path = Rust_CP_Snippets
 	url = https://github.com/Sumanth-NR/Rust_CP_Snippets
+
+[submodule "CP_Snippets"]
+	path = CP_Snippets
+	url = https://github.com/Sumanth-NR/CP_Snippets
